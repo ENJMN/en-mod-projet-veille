@@ -5,7 +5,9 @@
       "WebFetch(domain:videos.feedspot.com)",
       "WebFetch(domain:www.weweb.io)",
       "WebFetch(domain:blog.mean.ceo)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }
