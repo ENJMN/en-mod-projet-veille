@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:videos.feedspot.com)",
+      "WebFetch(domain:www.weweb.io)",
+      "WebFetch(domain:blog.mean.ceo)",
+      "Bash(git add:*)"
+    ]
+  }
+}
