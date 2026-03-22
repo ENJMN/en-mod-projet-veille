@@ -1,0 +1,44 @@
+[
+  {
+    "id": "1",
+    "topic": "Comment choisir un ERP pour une PME en Côte d'Ivoire",
+    "category": "IA & Digital",
+    "keywords": ["ERP PME Côte d'Ivoire", "Dolibarr Abidjan", "logiciel gestion entreprise Afrique"],
+    "status": "pending"
+  },
+  {
+    "id": "2",
+    "topic": "Le management de projet avec PRINCE2 : guide pratique pour les chefs de projet africains",
+    "category": "Stratégie",
+    "keywords": ["PRINCE2 Afrique", "gestion de projet certifié", "chef de projet Côte d'Ivoire"],
+    "status": "pending"
+  },
+  {
+    "id": "3",
+    "topic": "Automatiser sa comptabilité avec des outils No-Code : cas pratiques pour les TPE",
+    "category": "IA & Digital",
+    "keywords": ["automatisation comptabilité No-Code", "Make Zapier PME", "automatisation Afrique"],
+    "status": "pending"
+  },
+  {
+    "id": "4",
+    "topic": "Suivi-évaluation des projets : comprendre le cadre GAR/SEAR en Afrique subsaharienne",
+    "category": "Stratégie",
+    "keywords": ["GAR SEAR Afrique", "suivi évaluation axé résultats", "gestion basée résultats"],
+    "status": "pending"
+  },
+  {
+    "id": "5",
+    "topic": "Permis de construire en Côte d'Ivoire : démarches, délais et bonnes pratiques",
+    "category": "BTP",
+    "keywords": ["permis construire Côte d'Ivoire", "formalités construction Abidjan", "réglementation BTP CI"],
+    "status": "pending"
+  },
+  {
+    "id": "6",
+    "topic": "Comment développer les compétences de ses équipes avec un budget limité",
+    "category": "Formation",
+    "keywords": ["formation entreprise budget limité", "développement compétences Afrique", "FDFP Côte d'Ivoire"],
+    "status": "pending"
+  }
+]
