@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getAllPosts } from "@/lib/blog";
 import BlogList from "@/components/BlogList";
+import NewsletterForm from "@/components/NewsletterForm";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -54,16 +55,7 @@ export default function BlogPage() {
           <p className="text-gray-600 mb-6">
             Recevez nos derniers articles et analyses directement dans votre boîte mail.
           </p>
-          <div className="flex gap-3 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="votre@email.com"
-              className="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0A2342] focus:border-transparent"
-            />
-            <button className="px-5 py-3 bg-[#0A2342] text-white text-sm font-semibold rounded-xl hover:bg-[#E8861A] transition-colors whitespace-nowrap">
-              S'abonner
-            </button>
-          </div>
+          <NewsletterForm />
         </div>
       </section>
     </>

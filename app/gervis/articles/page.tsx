@@ -100,7 +100,7 @@ export default function AdminArticlesPage() {
     }
   }
 
-  async function handlePatch(slug: string, action: "publish" | "unpublish") {
+  async function handlePatch(slug: string, action: "publish" | "unpublish", article?: Article) {
     setActionSlug(slug);
     const res = await fetch("/api/gervis/articles", {
       method: "PATCH",
@@ -109,7 +109,17 @@ export default function AdminArticlesPage() {
     });
     setActionSlug(null);
     if (res.ok) {
-      showMsg("success", action === "publish" ? "Article publié !" : "Article repassé en brouillon.");
+      if (action === "publish" && article) {
+        // Envoyer la newsletter aux abonnés
+        fetch("/api/newsletter/send", {
+          method: "POST",
+          headers: { "x-admin-key": adminKey, "Content-Type": "application/json" },
+          body: JSON.stringify({ slug, title: article.title, excerpt: article.excerpt, category: article.category }),
+        });
+        showMsg("success", "Article publié et newsletter envoyée aux abonnés !");
+      } else {
+        showMsg("success", "Article repassé en brouillon.");
+      }
       loadAll();
     } else {
       showMsg("error", "Erreur.");
@@ -161,7 +171,7 @@ export default function AdminArticlesPage() {
       </div>
       <div className="flex sm:flex-col gap-2 shrink-0">
         {isDraft ? (
-          <button onClick={() => handlePatch(article.slug, "publish")} disabled={actionSlug === article.slug}
+          <button onClick={() => handlePatch(article.slug, "publish", article)} disabled={actionSlug === article.slug}
             className="px-4 py-2 bg-[#059669] text-white text-xs font-semibold rounded-lg hover:bg-[#047857] transition-colors disabled:opacity-60">
             {actionSlug === article.slug ? "…" : "Publier"}
           </button>

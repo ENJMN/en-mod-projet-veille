@@ -337,6 +337,33 @@ export type Database = {
         };
         Relationships: [];
       };
+      abonnes: {
+        Row: {
+          id: string;
+          email: string;
+          nom: string | null;
+          confirmed: boolean;
+          confirmation_token: string | null;
+          subscribed_at: string;
+          unsubscribed_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          email: string;
+          nom?: string | null;
+          confirmed?: boolean;
+          confirmation_token?: string | null;
+          subscribed_at?: string;
+          unsubscribed_at?: string | null;
+        };
+        Update: {
+          nom?: string | null;
+          confirmed?: boolean;
+          confirmation_token?: string | null;
+          unsubscribed_at?: string | null;
+        };
+        Relationships: [];
+      };
       terrains: {
         Row: {
           id: string;
