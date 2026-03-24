@@ -11,6 +11,7 @@ const WHATSAPP_URL = "https://wa.me/2250705133131?text=Bonjour%2C%20je%20souhait
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
+  const [manuallyClosed, setManuallyClosed] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
@@ -22,6 +23,25 @@ export default function ChatWidget() {
   const [error, setError] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Auto-open after 4 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setOpen(true);
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Exit intent — open when mouse leaves toward top of page
+  useEffect(() => {
+    function handleExitIntent(e: MouseEvent) {
+      if (e.clientY < 10 && !open && !manuallyClosed) {
+        setOpen(true);
+      }
+    }
+    document.addEventListener("mouseleave", handleExitIntent);
+    return () => document.removeEventListener("mouseleave", handleExitIntent);
+  }, [open, manuallyClosed]);
 
   useEffect(() => {
     if (open) {
@@ -79,7 +99,7 @@ export default function ChatWidget() {
                 <p className="text-gray-400 text-xs mt-0.5">Assistant WAYS · En ligne</p>
               </div>
             </div>
-            <button onClick={() => setOpen(false)} className="text-gray-400 hover:text-white transition-colors p-1">
+            <button onClick={() => { setOpen(false); setManuallyClosed(true); }} className="text-gray-400 hover:text-white transition-colors p-1">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
