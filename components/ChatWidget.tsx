@@ -8,6 +8,7 @@ interface Message {
 }
 
 const WHATSAPP_URL = "https://wa.me/2250705133131?text=Bonjour%2C%20je%20souhaite%20parler%20à%20un%20conseiller%20WAYS.";
+const AXEL_AVATAR = "https://zsgxsajnbciblqclkkst.supabase.co/storage/v1/object/public/images/Axel%20fal%201.png";
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
@@ -91,9 +92,7 @@ export default function ChatWidget() {
           {/* Header */}
           <div className="bg-[#0A2342] px-4 py-3 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-[#E8861A] flex items-center justify-center text-white font-black text-sm">
-                A
-              </div>
+              <img src={AXEL_AVATAR} alt="Axel" className="w-8 h-8 rounded-full object-cover" />
               <div>
                 <p className="text-white font-bold text-sm leading-none">Axel</p>
                 <p className="text-gray-400 text-xs mt-0.5">Assistant WAYS · En ligne</p>
@@ -111,9 +110,7 @@ export default function ChatWidget() {
             {messages.map((msg, i) => (
               <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                 {msg.role === "assistant" && (
-                  <div className="w-6 h-6 rounded-full bg-[#E8861A] flex items-center justify-center text-white font-black text-xs mr-2 shrink-0 mt-0.5">
-                    A
-                  </div>
+                  <img src={AXEL_AVATAR} alt="Axel" className="w-6 h-6 rounded-full object-cover mr-2 shrink-0 mt-0.5" />
                 )}
                 <div className={`max-w-[80%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${
                   msg.role === "user"
@@ -127,9 +124,7 @@ export default function ChatWidget() {
 
             {loading && (
               <div className="flex justify-start">
-                <div className="w-6 h-6 rounded-full bg-[#E8861A] flex items-center justify-center text-white font-black text-xs mr-2 shrink-0">
-                  A
-                </div>
+                <img src={AXEL_AVATAR} alt="Axel" className="w-6 h-6 rounded-full object-cover mr-2 shrink-0" />
                 <div className="bg-white px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm border border-gray-100 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
                   <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
@@ -189,17 +184,17 @@ export default function ChatWidget() {
       {/* Floating button */}
       <button
         onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-4 right-4 sm:right-6 z-50 w-14 h-14 bg-[#0A2342] text-white rounded-full shadow-lg hover:bg-[#E8861A] transition-all duration-200 flex items-center justify-center group"
+        className="fixed bottom-4 right-4 sm:right-6 z-50 w-14 h-14 rounded-full shadow-lg transition-all duration-200 flex items-center justify-center overflow-hidden border-2 border-white"
         aria-label={open ? "Fermer le chat" : "Ouvrir le chat Axel"}
       >
         {open ? (
-          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <div className="w-full h-full bg-[#0A2342] flex items-center justify-center">
+            <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </div>
         ) : (
-          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-          </svg>
+          <img src={AXEL_AVATAR} alt="Axel" className="w-full h-full object-cover" />
         )}
         {!open && (
           <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#E8861A] rounded-full border-2 border-white" />
