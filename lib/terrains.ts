@@ -1,5 +1,5 @@
 import terrainsData from "@/content/terrains.json";
-import { createAdminClient } from "@/lib/supabase/gervis";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 /** Lecture depuis Supabase (pages server-side en production) */
 export async function getAllTerrainsDB(): Promise<Terrain[]> {
