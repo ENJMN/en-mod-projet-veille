@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "À propos — WAYS Digital Solutions",
     description:
-      "Premier cabinet de conseil opérationnel à intelligence augmentée d'Afrique de l'Ouest. Fondé par N'Guessan Jacques EBAKA, WAYS accompagne les organisations vers l'excellence.",
+      "Premier cabinet de conseil opérationnel à intelligence augmentée d'Afrique de l'Ouest. WAYS accompagne les organisations vers l'excellence digitale.",
     url: "https://ways-ci.com/about",
   },
 };
@@ -181,8 +181,8 @@ export default function AboutPage() {
                   <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider">Fondateur</p>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-[#0A2342] mb-1">N'Guessan Jacques EBAKA</h3>
-                  <p className="text-[#E8861A] font-semibold text-sm mb-3">Directeur Général — WAYS Digital Solutions</p>
+                  <h3 className="text-xl font-bold text-[#0A2342] mb-1">Directeur Général</h3>
+                  <p className="text-[#E8861A] font-semibold text-sm mb-3">WAYS Digital Solutions</p>
                   <p className="text-gray-500 text-xs italic mb-4">
                     Ingénieur Projets · Consultant Formateur · Expert en Management des Organisations
                   </p>
