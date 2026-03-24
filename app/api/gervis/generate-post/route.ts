@@ -30,14 +30,14 @@ function todayISO(): string {
 }
 
 function getNextPendingTopic(): Topic | null {
-  const filePath = path.join(process.cwd(), "content", "topics.json");
+  const filePath = path.join(process.cwd(), "data", "topics.json");
   if (!fs.existsSync(filePath)) return null;
   const topics: Topic[] = JSON.parse(fs.readFileSync(filePath, "utf-8"));
   return topics.find((t) => t.status === "pending") ?? null;
 }
 
 function markTopicGenerated(id: string): void {
-  const filePath = path.join(process.cwd(), "content", "topics.json");
+  const filePath = path.join(process.cwd(), "data", "topics.json");
   const topics: Topic[] = JSON.parse(fs.readFileSync(filePath, "utf-8"));
   const updated = topics.map((t) => (t.id === id ? { ...t, status: "generated" } : t));
   fs.writeFileSync(filePath, JSON.stringify(updated, null, 2), "utf-8");

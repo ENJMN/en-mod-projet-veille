@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { getAllTerrainsDB } from "@/lib/terrains";
 import TerrainListings from "./TerrainListings";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Terrains à vendre — WAYS Build",
   description:

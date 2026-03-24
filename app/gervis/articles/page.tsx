@@ -11,6 +11,8 @@ interface Draft {
   wordCount: number;
 }
 
+const CATEGORIES = ["IA & Digital", "Stratégie", "BTP", "Formation"];
+
 const categoryStyles: Record<string, string> = {
   "IA & Digital": "bg-[#0A2342]/10 text-[#0A2342]",
   "Stratégie": "bg-[#E8861A]/10 text-[#E8861A]",
@@ -24,12 +26,16 @@ export default function AdminArticlesPage() {
   const [generating, setGenerating] = useState(false);
   const [publishingSlug, setPublishingSlug] = useState<string | null>(null);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [showManual, setShowManual] = useState(false);
+  const [manualTopic, setManualTopic] = useState("");
+  const [manualCategory, setManualCategory] = useState("IA & Digital");
+  const [manualKeywords, setManualKeywords] = useState("");
 
   const adminKey = typeof window !== "undefined" ? sessionStorage.getItem("ways_admin_key") ?? "" : "";
 
   function showMessage(type: "success" | "error", text: string) {
     setMessage({ type, text });
-    setTimeout(() => setMessage(null), 4000);
+    setTimeout(() => setMessage(null), 5000);
   }
 
   async function loadDrafts() {
@@ -83,16 +89,20 @@ export default function AdminArticlesPage() {
     }
   }
 
-  async function handleGenerate() {
+  async function handleGenerate(custom?: { topic: string; category: string; keywords: string[] }) {
     setGenerating(true);
     try {
       const res = await fetch("/api/gervis/generate-post", {
         method: "POST",
-        headers: { "x-admin-key": adminKey },
+        headers: { "x-admin-key": adminKey, "Content-Type": "application/json" },
+        body: custom ? JSON.stringify(custom) : "{}",
       });
       const data = await res.json();
       if (res.ok && data.success) {
         showMessage("success", `Article généré : "${data.title}" (~${data.wordCount} mots)`);
+        setShowManual(false);
+        setManualTopic("");
+        setManualKeywords("");
         loadDrafts();
       } else {
         showMessage("error", data.message ?? data.error ?? "Aucun sujet en attente.");
@@ -102,37 +112,98 @@ export default function AdminArticlesPage() {
     }
   }
 
+  function handleManualSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!manualTopic.trim()) return;
+    handleGenerate({
+      topic: manualTopic.trim(),
+      category: manualCategory,
+      keywords: manualKeywords.split(",").map(k => k.trim()).filter(Boolean),
+    });
+  }
+
   return (
     <div className="p-6 max-w-5xl mx-auto">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl font-black text-[#0A2342]">Brouillons d'articles</h1>
           <p className="text-gray-500 text-sm mt-1">Relisez et publiez les articles générés.</p>
         </div>
-        <button
-          onClick={handleGenerate}
-          disabled={generating}
-          className="flex items-center gap-2 px-5 py-2.5 bg-[#E8861A] text-white text-sm font-semibold rounded-xl hover:bg-[#d4781a] transition-colors disabled:opacity-60"
-        >
-          {generating ? (
-            <>
-              <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-              </svg>
-              Génération...
-            </>
-          ) : (
-            <>
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-              </svg>
-              Générer le prochain article
-            </>
-          )}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowManual(v => !v)}
+            className="px-4 py-2.5 border border-[#0A2342] text-[#0A2342] text-sm font-semibold rounded-xl hover:bg-[#0A2342]/5 transition-colors"
+          >
+            Sujet libre
+          </button>
+          <button
+            onClick={() => handleGenerate()}
+            disabled={generating}
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#E8861A] text-white text-sm font-semibold rounded-xl hover:bg-[#d4781a] transition-colors disabled:opacity-60"
+          >
+            {generating ? (
+              <>
+                <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                </svg>
+                Génération...
+              </>
+            ) : (
+              <>
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+                Prochain article
+              </>
+            )}
+          </button>
+        </div>
       </div>
+
+      {/* Formulaire sujet libre */}
+      {showManual && (
+        <div className="bg-white rounded-2xl border border-[#E8861A]/30 p-5 mb-6 shadow-sm">
+          <h2 className="font-bold text-[#0A2342] mb-4 text-sm">Générer avec un sujet libre</h2>
+          <form onSubmit={handleManualSubmit} className="space-y-3">
+            <input
+              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0A2342]/20"
+              placeholder="Sujet de l'article *"
+              value={manualTopic}
+              onChange={e => setManualTopic(e.target.value)}
+              required
+            />
+            <div className="grid grid-cols-2 gap-3">
+              <select
+                className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0A2342]/20"
+                value={manualCategory}
+                onChange={e => setManualCategory(e.target.value)}
+              >
+                {CATEGORIES.map(c => <option key={c}>{c}</option>)}
+              </select>
+              <input
+                className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0A2342]/20"
+                placeholder="Mots-clés (séparés par virgule)"
+                value={manualKeywords}
+                onChange={e => setManualKeywords(e.target.value)}
+              />
+            </div>
+            <div className="flex gap-2">
+              <button
+                type="submit"
+                disabled={generating || !manualTopic.trim()}
+                className="px-5 py-2.5 bg-[#0A2342] text-white text-sm font-bold rounded-xl hover:bg-[#E8861A] transition-colors disabled:opacity-50"
+              >
+                {generating ? "Génération en cours..." : "Générer cet article"}
+              </button>
+              <button type="button" onClick={() => setShowManual(false)} className="px-4 py-2.5 border border-gray-200 text-sm rounded-xl hover:bg-gray-50">
+                Annuler
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
 
       {/* Toast */}
       {message && (
@@ -151,7 +222,7 @@ export default function AdminArticlesPage() {
       ) : drafts.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-2xl border border-gray-100">
           <p className="text-gray-500 text-sm">Aucun brouillon en attente.</p>
-          <p className="text-gray-400 text-xs mt-1">Cliquez sur "Générer le prochain article" pour en créer un.</p>
+          <p className="text-gray-400 text-xs mt-1">Cliquez sur "Prochain article" ou "Sujet libre" pour en créer un.</p>
         </div>
       ) : (
         <div className="space-y-4">
