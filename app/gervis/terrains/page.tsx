@@ -123,8 +123,10 @@ export default function AdminTerrainsPage() {
     );
   }
 
+  const [showRetires, setShowRetires] = useState(false);
   const actifs = terrains.filter((t) => t.disponible);
   const retires = terrains.filter((t) => !t.disponible);
+  const displayed = showRetires ? terrains : actifs;
 
   return (
     <div className="min-h-screen bg-[#F8F9FA]">
@@ -136,7 +138,11 @@ export default function AdminTerrainsPage() {
             <h1 className="text-2xl font-black">Offres de terrains</h1>
             <p className="text-gray-400 text-sm mt-1">
               {actifs.length} offre{actifs.length > 1 ? "s" : ""} active{actifs.length > 1 ? "s" : ""}
-              {retires.length > 0 && ` · ${retires.length} retirée${retires.length > 1 ? "s" : ""}`}
+              {retires.length > 0 && (
+                <button onClick={() => setShowRetires(v => !v)} className="ml-2 underline underline-offset-2 text-gray-400 hover:text-white transition-colors">
+                  {showRetires ? "Masquer" : `· ${retires.length} retirée${retires.length > 1 ? "s" : ""}`}
+                </button>
+              )}
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -170,7 +176,7 @@ export default function AdminTerrainsPage() {
 
         {loading ? (
           <div className="text-center py-20 text-gray-400">Chargement…</div>
-        ) : terrains.length === 0 ? (
+        ) : displayed.length === 0 ? (
           <div className="bg-white rounded-2xl border border-gray-100 p-16 text-center">
             <p className="text-gray-400 mb-4">Aucune offre créée</p>
             <Link
@@ -196,7 +202,7 @@ export default function AdminTerrainsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                {terrains.map((t) => (
+                {displayed.map((t) => (
                   <tr key={t.id} className={`hover:bg-gray-50/50 ${!t.disponible ? "opacity-50" : ""}`}>
                     <td className="px-5 py-4">
                       <p className="font-semibold text-[#0A2342] line-clamp-1">{t.titre}</p>
