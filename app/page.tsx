@@ -407,8 +407,12 @@ export default async function HomePage() {
           </p>
           <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6">
             {displayPartenaires.map((p) => (
-              <div key={p.nom} className="px-6 py-3 bg-[#F8F9FA] rounded-xl border border-gray-100 text-sm font-semibold text-[#0A2342] hover:border-[#E8861A] hover:text-[#E8861A] transition-colors">
-                {p.nom}
+              <div key={p.nom} className="px-6 py-3 bg-[#F8F9FA] rounded-xl border border-gray-100 hover:border-[#E8861A] transition-colors flex items-center gap-3">
+                {p.logo_url ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={p.logo_url} alt={p.nom} className="h-8 w-auto object-contain" />
+                ) : null}
+                <span className="text-sm font-semibold text-[#0A2342]">{p.nom}</span>
               </div>
             ))}
           </div>
