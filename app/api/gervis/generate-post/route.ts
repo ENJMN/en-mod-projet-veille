@@ -111,10 +111,12 @@ export async function POST(req: NextRequest) {
     messages: [{ role: "user", content: buildPrompt(topic, category, keywords) }],
   });
 
-  const articleText = message.choices[0]?.message?.content?.trim();
+  let articleText = message.choices[0]?.message?.content?.trim();
   if (!articleText) {
     return NextResponse.json({ error: "Réponse inattendue de l'API OpenAI." }, { status: 500 });
   }
+  // Supprimer les balises markdown ```mdx ou ```markdown si GPT les ajoute
+  articleText = articleText.replace(/^```(?:mdx|markdown)?\s*/i, "").replace(/\s*```\s*$/, "").trim();
 
   // Générer le slug depuis le titre dans le frontmatter
   const titleMatch = articleText.match(/^title:\s*["']?(.+?)["']?\s*$/m);
