@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import OpenAI from "openai";
 import fs from "fs";
 import path from "path";
 
 import { checkAdminKey } from "@/lib/admin-auth";
-const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY ?? "";
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY ?? "";
 
 interface Topic {
   id: string;
@@ -97,9 +97,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Non autorisé." }, { status: 401 });
   }
 
-  if (!ANTHROPIC_API_KEY) {
+  if (!OPENAI_API_KEY) {
     return NextResponse.json(
-      { error: "ANTHROPIC_API_KEY manquant dans les variables d'environnement." },
+      { error: "OPENAI_API_KEY manquant dans les variables d'environnement." },
       { status: 500 }
     );
   }
@@ -134,21 +134,19 @@ export async function POST(req: NextRequest) {
     topicId = next.id;
   }
 
-  // Génération via Claude API
-  const client = new Anthropic({ apiKey: ANTHROPIC_API_KEY });
+  // Génération via OpenAI API
+  const client = new OpenAI({ apiKey: OPENAI_API_KEY });
 
-  const message = await client.messages.create({
-    model: "claude-opus-4-6",
+  const message = await client.chat.completions.create({
+    model: "gpt-4o",
     max_tokens: 8000,
     messages: [{ role: "user", content: buildPrompt(topic, category, keywords) }],
   });
 
-  const content = message.content[0];
-  if (content.type !== "text") {
-    return NextResponse.json({ error: "Réponse inattendue de l'API Claude." }, { status: 500 });
+  const articleText = message.choices[0]?.message?.content?.trim();
+  if (!articleText) {
+    return NextResponse.json({ error: "Réponse inattendue de l'API OpenAI." }, { status: 500 });
   }
-
-  const articleText = content.text.trim();
 
   // Générer le slug depuis le titre dans le frontmatter
   const titleMatch = articleText.match(/^title:\s*["']?(.+?)["']?\s*$/m);
