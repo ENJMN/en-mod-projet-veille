@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ServiceCard from "@/components/ServiceCard";
 import BlogCard from "@/components/BlogCard";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export const metadata: Metadata = {
   title: "WAYS Digital Solutions — We Act for Your Success",
@@ -167,7 +168,28 @@ const blogPosts = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const supabase = createAdminClient();
+
+  const [{ data: temoignagesDB }, { data: partenairesDB }] = await Promise.all([
+    supabase.from("temoignages").select("*").eq("is_published", true).order("ordre"),
+    supabase.from("partenaires").select("*").eq("is_published", true).order("ordre"),
+  ]);
+
+  const displayTestimonials = temoignagesDB && temoignagesDB.length > 0
+    ? temoignagesDB.map(t => ({
+        name: t.prenom,
+        role: t.role ?? "",
+        company: t.entreprise ?? "",
+        quote: t.citation,
+        initials: t.prenom.slice(0, 1).toUpperCase(),
+      }))
+    : testimonials;
+
+  const displayPartenaires = partenairesDB && partenairesDB.length > 0
+    ? partenairesDB.map(p => ({ nom: p.nom, logo_url: p.logo_url }))
+    : partenaires.map(nom => ({ nom, logo_url: null }));
+
   return (
     <>
       {/* Hero Section */}
@@ -344,7 +366,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((t) => (
+            {displayTestimonials.map((t) => (
               <div
                 key={t.name}
                 className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors"
@@ -381,9 +403,9 @@ export default function HomePage() {
             Ils nous font confiance
           </p>
           <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6">
-            {partenaires.map((nom) => (
-              <div key={nom} className="px-6 py-3 bg-[#F8F9FA] rounded-xl border border-gray-100 text-sm font-semibold text-[#0A2342] hover:border-[#E8861A] hover:text-[#E8861A] transition-colors">
-                {nom}
+            {displayPartenaires.map((p) => (
+              <div key={p.nom} className="px-6 py-3 bg-[#F8F9FA] rounded-xl border border-gray-100 text-sm font-semibold text-[#0A2342] hover:border-[#E8861A] hover:text-[#E8861A] transition-colors">
+                {p.nom}
               </div>
             ))}
           </div>
