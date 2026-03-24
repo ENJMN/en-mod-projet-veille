@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Trash2, Edit2, Check, X } from "lucide-react";
+import ImageUpload from "@/components/ImageUpload";
 
 interface Partenaire {
   id: string;
@@ -87,7 +88,9 @@ export default function PartenairesPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
           <input className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm" placeholder="Nom de l'entreprise *" value={form.nom ?? ""} onChange={e => setForm(f => ({ ...f, nom: e.target.value }))} />
           <input type="number" className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm" placeholder="Ordre d'affichage" value={form.ordre ?? 0} onChange={e => setForm(f => ({ ...f, ordre: Number(e.target.value) }))} />
-          <input className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm" placeholder="URL du logo (optionnel)" value={form.logo_url ?? ""} onChange={e => setForm(f => ({ ...f, logo_url: e.target.value }))} />
+          <div className="sm:col-span-2">
+            <ImageUpload value={form.logo_url ?? ""} onChange={url => setForm(f => ({ ...f, logo_url: url }))} folder="partenaires" label="Logo" />
+          </div>
           <input className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm" placeholder="Site web (optionnel)" value={form.site_url ?? ""} onChange={e => setForm(f => ({ ...f, site_url: e.target.value }))} />
         </div>
         <div className="flex items-center gap-3">

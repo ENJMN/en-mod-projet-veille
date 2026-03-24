@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, X } from "lucide-react";
 import { TITRES_PROPRIETE, TITRE_LABELS } from "@/lib/terrains";
+import ImageUpload from "@/components/ImageUpload";
 
 const VIAB_OPTIONS = ["eau", "électricité", "voirie", "assainissement", "clôture"];
 
@@ -366,14 +367,22 @@ export default function TerrainForm({ mode, initialData, adminKey }: Props) {
       {/* Section 5 — Images */}
       <section className="bg-white rounded-2xl border border-gray-100 p-6">
         <h2 className="text-base font-black text-[#0A2342] mb-1">Images</h2>
-        <p className="text-xs text-gray-400 mb-4">Optionnel — ajoutez les URLs des photos (hébergées sur Supabase Storage, Cloudinary, etc.)</p>
+        <p className="text-xs text-gray-400 mb-4">Upload directement depuis votre appareil ou collez une URL.</p>
+        <div className="mb-4">
+          <ImageUpload
+            value=""
+            onChange={(url) => { if (url && !form.images.includes(url)) set("images", [...form.images, url]); }}
+            folder="terrains"
+            label="Ajouter une photo"
+          />
+        </div>
         <div className="flex gap-2 mb-3">
           <input
             type="url"
             value={imageInput}
             onChange={(e) => setImageInput(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addImage(); } }}
-            placeholder="https://..."
+            placeholder="Ou collez une URL https://..."
             className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0A2342]/20"
           />
           <button
