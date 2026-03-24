@@ -348,7 +348,8 @@ Retourne UNIQUEMENT ce JSON (sans markdown) :
   let leadId = "";
   try {
     const supabase = createAdminClient();
-    const { data } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data } = await (supabase as any)
       .from("audit_leads")
       .insert({ email, phone: phone ?? null, url: targetUrl, score: totalScore, report })
       .select("id")
