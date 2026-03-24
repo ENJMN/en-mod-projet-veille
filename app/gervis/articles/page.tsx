@@ -30,6 +30,9 @@ export default function AdminArticlesPage() {
   const [manualTopic, setManualTopic] = useState("");
   const [manualCategory, setManualCategory] = useState("IA & Digital");
   const [manualKeywords, setManualKeywords] = useState("");
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [promptText, setPromptText] = useState("");
+  const [savingPrompt, setSavingPrompt] = useState(false);
 
   const adminKey = typeof window !== "undefined" ? sessionStorage.getItem("ways_admin_key") ?? "" : "";
 
@@ -53,7 +56,24 @@ export default function AdminArticlesPage() {
     }
   }
 
-  useEffect(() => { loadDrafts(); }, []);
+  useEffect(() => { loadDrafts(); loadPrompt(); }, []);
+
+  async function loadPrompt() {
+    const res = await fetch("/api/gervis/article-prompt", { headers: { "x-admin-key": adminKey } });
+    if (res.ok) { const data = await res.json(); setPromptText(data.prompt ?? ""); }
+  }
+
+  async function savePrompt() {
+    setSavingPrompt(true);
+    const res = await fetch("/api/gervis/article-prompt", {
+      method: "PUT",
+      headers: { "x-admin-key": adminKey, "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt: promptText }),
+    });
+    setSavingPrompt(false);
+    if (res.ok) showMessage("success", "Prompt sauvegardé.");
+    else showMessage("error", "Erreur lors de la sauvegarde.");
+  }
 
   async function handlePublish(slug: string) {
     setPublishingSlug(slug);
@@ -132,6 +152,12 @@ export default function AdminArticlesPage() {
         </div>
         <div className="flex items-center gap-2">
           <button
+            onClick={() => setShowPrompt(v => !v)}
+            className="px-4 py-2.5 border border-gray-200 text-gray-600 text-sm font-semibold rounded-xl hover:bg-gray-50 transition-colors"
+          >
+            Prompt système
+          </button>
+          <button
             onClick={() => setShowManual(v => !v)}
             className="px-4 py-2.5 border border-[#0A2342] text-[#0A2342] text-sm font-semibold rounded-xl hover:bg-[#0A2342]/5 transition-colors"
           >
@@ -161,6 +187,34 @@ export default function AdminArticlesPage() {
           </button>
         </div>
       </div>
+
+      {/* Éditeur de prompt système */}
+      {showPrompt && (
+        <div className="bg-white rounded-2xl border border-gray-200 p-5 mb-6 shadow-sm">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="font-bold text-[#0A2342] text-sm">Prompt système de génération</h2>
+            <p className="text-xs text-gray-400">Variables disponibles : <code className="bg-gray-100 px-1 rounded">{"{{TOPIC}}"}</code> <code className="bg-gray-100 px-1 rounded">{"{{CATEGORY}}"}</code> <code className="bg-gray-100 px-1 rounded">{"{{KEYWORDS}}"}</code> <code className="bg-gray-100 px-1 rounded">{"{{DATE}}"}</code></p>
+          </div>
+          <textarea
+            value={promptText}
+            onChange={e => setPromptText(e.target.value)}
+            rows={16}
+            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#0A2342]/20 resize-y"
+          />
+          <div className="flex gap-2 mt-3">
+            <button
+              onClick={savePrompt}
+              disabled={savingPrompt}
+              className="px-5 py-2.5 bg-[#0A2342] text-white text-sm font-bold rounded-xl hover:bg-[#E8861A] transition-colors disabled:opacity-50"
+            >
+              {savingPrompt ? "Sauvegarde..." : "Sauvegarder"}
+            </button>
+            <button onClick={() => setShowPrompt(false)} className="px-4 py-2.5 border border-gray-200 text-sm rounded-xl hover:bg-gray-50">
+              Fermer
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Formulaire sujet libre */}
       {showManual && (

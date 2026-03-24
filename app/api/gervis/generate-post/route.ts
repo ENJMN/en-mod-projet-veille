@@ -43,52 +43,20 @@ function markTopicGenerated(id: string): void {
   fs.writeFileSync(filePath, JSON.stringify(updated, null, 2), "utf-8");
 }
 
+const PROMPT_FILE = path.join(process.cwd(), "data", "article-prompt.txt");
+
+const DEFAULT_PROMPT = `Tu es un expert en rédaction SEO et consultant senior chez WAYS Digital Solutions. Rédige un article de blog complet, optimisé SEO, en français, d'un minimum de 1800 mots sur le sujet : {{TOPIC}} (catégorie : {{CATEGORY}}, mots-clés : {{KEYWORDS}}). Commence directement par le frontmatter MDX avec title, date "{{DATE}}", author "ENJ", excerpt, category "{{CATEGORY}}", draft true.`;
+
 function buildPrompt(topic: string, category: string, keywords: string[]): string {
   const kwList = keywords.length ? keywords.join(", ") : topic;
-  return `Tu es un expert en rédaction SEO et consultant senior chez WAYS Digital Solutions, cabinet de conseil opérationnel à intelligence augmentée basé à Abidjan, Côte d'Ivoire. Tu rédiges pour des dirigeants, managers et entrepreneurs d'Afrique de l'Ouest.
-
-Rédige un article de blog complet, optimisé SEO, en français, d'un minimum de 1800 mots sur le sujet suivant :
-
-**Sujet** : ${topic}
-**Catégorie** : ${category}
-**Mots-clés cibles** : ${kwList}
-
-## Consignes de structure
-
-1. **Frontmatter MDX** (en premier, obligatoire) :
-\`\`\`
----
-title: "[titre accrocheur incluant le mot-clé principal, max 65 caractères]"
-date: "${todayISO()}"
-author: "ENJ"
-excerpt: "[meta description SEO de 150-160 caractères, inclut le mot-clé principal et donne envie de cliquer]"
-category: "${category}"
-draft: true
----
-\`\`\`
-
-2. **Introduction** (150-200 mots) : accroche forte avec chiffre ou constat terrain, problématique claire, annonce du plan.
-
-3. **Corps de l'article** : minimum 5 sections H2, chacune avec 2-3 paragraphes denses (200-300 mots chacun). Utilise des sous-titres H3 quand c'est pertinent. Intègre naturellement les mots-clés cibles (densité 1-2 %).
-
-4. **Éléments de richesse** : inclus au moins 2 de ces éléments :
-   - Liste à puces ou numérotée pratique
-   - Citation mise en gras (**texte important**)
-   - Exemple concret ou cas terrain africain/ivoirien
-   - Statistique ou donnée chiffrée sourcée
-
-5. **Conclusion** (100-150 mots) : synthèse des points clés, call-to-action naturel vers les services WAYS.
-
-6. **Séparateur final** : termine par \`---\` puis une ligne commentée suggérant un lien interne WAYS pertinent.
-
-## Consignes de style
-
-- Ton : expert mais accessible, concret, orienté terrain africain
-- Éviter : jargon inutile, répétitions, platitudes génériques
-- Valoriser : exemples ivoiriens/ouest-africains, retours d'expérience terrain
-- Ne jamais inventer des statistiques sans les attribuer à une source plausible
-
-Génère maintenant l'article complet, sans commentaire introductif — commence directement par le frontmatter.`;
+  const template = fs.existsSync(PROMPT_FILE)
+    ? fs.readFileSync(PROMPT_FILE, "utf-8")
+    : DEFAULT_PROMPT;
+  return template
+    .replace(/\{\{TOPIC\}\}/g, topic)
+    .replace(/\{\{CATEGORY\}\}/g, category)
+    .replace(/\{\{KEYWORDS\}\}/g, kwList)
+    .replace(/\{\{DATE\}\}/g, todayISO());
 }
 
 export async function POST(req: NextRequest) {
