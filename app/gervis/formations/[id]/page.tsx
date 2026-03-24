@@ -47,7 +47,7 @@ export default function EditFormationPage({ params }: { params: { id: string } }
     const key = sessionStorage.getItem(ADMIN_KEY_STORAGE) ?? "";
     if (!key) { setLoading(false); return; }
 
-    fetch("/api/admin/formations", { headers: { "x-admin-key": key } })
+    fetch("/api/gervis/formations", { headers: { "x-admin-key": key } })
       .then((r) => r.json())
       .then((data: Formation[]) => {
         const f = data.find((x) => x.id === params.id);
@@ -75,7 +75,7 @@ export default function EditFormationPage({ params }: { params: { id: string } }
     setSaving(true);
 
     const key = sessionStorage.getItem(ADMIN_KEY_STORAGE) ?? "";
-    const res = await fetch("/api/admin/formations", {
+    const res = await fetch("/api/gervis/formations", {
       method: "PATCH",
       headers: { "x-admin-key": key, "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -87,7 +87,7 @@ export default function EditFormationPage({ params }: { params: { id: string } }
     });
 
     if (res.ok) {
-      router.push("/admin/formations");
+      router.push("/gervis/formations");
     } else {
       const data = await res.json();
       setError(data.error ?? "Erreur lors de la sauvegarde.");
@@ -118,7 +118,7 @@ export default function EditFormationPage({ params }: { params: { id: string } }
       <div className="min-h-screen bg-[#F8F9FA] flex items-center justify-center text-center px-4">
         <div>
           <p className="text-gray-500 mb-4">Formation introuvable.</p>
-          <Link href="/admin/formations" className="text-[#0A2342] font-semibold underline hover:text-[#E8861A]">
+          <Link href="/gervis/formations" className="text-[#0A2342] font-semibold underline hover:text-[#E8861A]">
             Retour aux formations
           </Link>
         </div>
@@ -130,7 +130,7 @@ export default function EditFormationPage({ params }: { params: { id: string } }
     <div className="min-h-screen bg-[#F8F9FA]">
       <div className="bg-[#0A2342] text-white py-8">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-4">
-          <Link href="/admin/formations" className="text-gray-400 hover:text-white transition-colors">
+          <Link href="/gervis/formations" className="text-gray-400 hover:text-white transition-colors">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
             </svg>
@@ -297,7 +297,7 @@ export default function EditFormationPage({ params }: { params: { id: string } }
 
           {/* Actions */}
           <div className="flex gap-3 justify-end pb-8">
-            <Link href="/admin/formations" className="px-5 py-2.5 border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl hover:border-gray-300 transition-colors">
+            <Link href="/gervis/formations" className="px-5 py-2.5 border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl hover:border-gray-300 transition-colors">
               Annuler
             </Link>
             <button

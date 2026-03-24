@@ -18,11 +18,11 @@ import {
 const ADMIN_KEY_STORAGE = "ways_admin_key";
 
 const NAV = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-  { href: "/admin/terrains", label: "Terrains", icon: MapPin },
-  { href: "/admin/formations", label: "Formations", icon: GraduationCap },
-  { href: "/admin/articles", label: "Articles", icon: FileText },
-  { href: "/admin/commentaires", label: "Commentaires", icon: MessageSquare },
+  { href: "/gervis", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { href: "/gervis/terrains", label: "Terrains", icon: MapPin },
+  { href: "/gervis/formations", label: "Formations", icon: GraduationCap },
+  { href: "/gervis/articles", label: "Articles", icon: FileText },
+  { href: "/gervis/commentaires", label: "Commentaires", icon: MessageSquare },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -40,7 +40,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     // Vérification rapide côté client (la vraie vérification est faite par chaque API)
-    const res = await fetch("/api/admin/terrains", {
+    const res = await fetch("/api/gervis/terrains", {
       headers: { "x-admin-key": keyInput },
     });
     if (res.ok || res.status === 200) {
@@ -59,7 +59,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   function isActive(href: string, exact = false) {
     if (exact) return pathname === href;
-    return pathname.startsWith(href) && href !== "/admin";
+    return pathname.startsWith(href) && href !== "/gervis";
   }
 
   if (!authenticated) {
@@ -146,14 +146,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               href={href}
               onClick={() => setSidebarOpen(false)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
-                isActive(href, exact) || (exact && pathname === "/admin")
+                isActive(href, exact) || (exact && pathname === "/gervis")
                   ? "bg-white/10 text-white"
                   : "text-gray-400 hover:text-white hover:bg-white/5"
               }`}
             >
               <Icon className="w-4 h-4 shrink-0" />
               {label}
-              {href === "/admin" && isActive("/admin", true) && (
+              {href === "/gervis" && isActive("/gervis", true) && (
                 <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#E8861A]" />
               )}
             </Link>

@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/admin/", "/api/"],
+      disallow: ["/gervis/", "/api/"],
     },
     sitemap: "https://ways-ci.com/sitemap.xml",
   };

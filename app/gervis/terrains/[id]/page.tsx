@@ -17,7 +17,7 @@ export default function EditTerrainPage({ params }: { params: { id: string } }) 
 
   async function loadTerrain(key: string) {
     setLoading(true);
-    const res = await fetch("/api/admin/terrains", {
+    const res = await fetch("/api/gervis/terrains", {
       headers: { "x-admin-key": key },
     });
     if (res.ok) {
@@ -83,7 +83,7 @@ export default function EditTerrainPage({ params }: { params: { id: string } }) 
       <div className="min-h-screen bg-[#F8F9FA] flex items-center justify-center px-4 text-center">
         <div>
           <p className="text-gray-500 mb-4">Terrain introuvable.</p>
-          <Link href="/admin/terrains" className="text-[#0A2342] font-semibold underline hover:text-[#E8861A]">
+          <Link href="/gervis/terrains" className="text-[#0A2342] font-semibold underline hover:text-[#E8861A]">
             Retour aux offres
           </Link>
         </div>
@@ -97,7 +97,7 @@ export default function EditTerrainPage({ params }: { params: { id: string } }) 
     <div className="min-h-screen bg-[#F8F9FA]">
       <div className="bg-[#0A2342] text-white py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link href="/admin/terrains" className="inline-flex items-center gap-1.5 text-gray-400 hover:text-white text-sm mb-4 transition-colors">
+          <Link href="/gervis/terrains" className="inline-flex items-center gap-1.5 text-gray-400 hover:text-white text-sm mb-4 transition-colors">
             <ChevronLeft className="w-4 h-4" />
             Retour aux offres
           </Link>

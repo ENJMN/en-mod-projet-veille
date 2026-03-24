@@ -35,7 +35,7 @@ export default function AdminArticlesPage() {
   async function loadDrafts(key: string) {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/articles", {
+      const res = await fetch("/api/gervis/articles", {
         headers: { "x-admin-key": key },
       });
       if (res.ok) {
@@ -56,7 +56,7 @@ export default function AdminArticlesPage() {
   async function handlePublish(slug: string) {
     setPublishingSlug(slug);
     try {
-      const res = await fetch("/api/admin/articles", {
+      const res = await fetch("/api/gervis/articles", {
         method: "PATCH",
         headers: { "x-admin-key": password, "Content-Type": "application/json" },
         body: JSON.stringify({ slug, action: "publish" }),
@@ -74,7 +74,7 @@ export default function AdminArticlesPage() {
 
   async function handleDelete(slug: string) {
     if (!confirm("Supprimer définitivement ce brouillon ?")) return;
-    const res = await fetch("/api/admin/articles", {
+    const res = await fetch("/api/gervis/articles", {
       method: "DELETE",
       headers: { "x-admin-key": password, "Content-Type": "application/json" },
       body: JSON.stringify({ slug }),
@@ -90,7 +90,7 @@ export default function AdminArticlesPage() {
   async function handleGenerate() {
     setGenerating(true);
     try {
-      const res = await fetch("/api/admin/generate-post", {
+      const res = await fetch("/api/gervis/generate-post", {
         method: "POST",
         headers: { "x-admin-key": password },
       });

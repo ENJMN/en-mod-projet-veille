@@ -103,14 +103,14 @@ export default function TerrainForm({ mode, initialData, adminKey }: Props) {
       ...(mode === "edit" && initialData?.id ? { id: initialData.id } : {}),
     };
 
-    const res = await fetch("/api/admin/terrains", {
+    const res = await fetch("/api/gervis/terrains", {
       method: mode === "create" ? "POST" : "PATCH",
       headers: { "x-admin-key": adminKey, "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
 
     if (res.ok) {
-      router.push("/admin/terrains");
+      router.push("/gervis/terrains");
       router.refresh();
     } else {
       const data = await res.json();
@@ -406,7 +406,7 @@ export default function TerrainForm({ mode, initialData, adminKey }: Props) {
       <div className="flex items-center gap-3 justify-end pb-8">
         <button
           type="button"
-          onClick={() => router.push("/admin/terrains")}
+          onClick={() => router.push("/gervis/terrains")}
           className="px-5 py-2.5 border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl hover:border-gray-300 transition-colors"
         >
           Annuler

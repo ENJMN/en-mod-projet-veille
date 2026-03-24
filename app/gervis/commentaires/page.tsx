@@ -23,7 +23,7 @@ export default function AdminCommentairesPage() {
   const fetchComments = useCallback(async (key: string) => {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/comments", {
+      const res = await fetch("/api/gervis/comments", {
         headers: { "x-admin-key": key },
       });
       if (res.status === 401) {
@@ -48,7 +48,7 @@ export default function AdminCommentairesPage() {
   };
 
   const handleApprove = async (comment: Comment, approved: boolean) => {
-    const res = await fetch("/api/admin/comments", {
+    const res = await fetch("/api/gervis/comments", {
       method: "PATCH",
       headers: { "Content-Type": "application/json", "x-admin-key": adminKey },
       body: JSON.stringify({ slug: comment.slug, id: comment.id, approved }),
@@ -62,7 +62,7 @@ export default function AdminCommentairesPage() {
 
   const handleDelete = async (comment: Comment) => {
     if (!confirm(`Supprimer le commentaire de "${comment.name}" ?`)) return;
-    const res = await fetch("/api/admin/comments", {
+    const res = await fetch("/api/gervis/comments", {
       method: "DELETE",
       headers: { "Content-Type": "application/json", "x-admin-key": adminKey },
       body: JSON.stringify({ slug: comment.slug, id: comment.id }),

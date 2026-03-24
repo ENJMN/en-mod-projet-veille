@@ -41,7 +41,7 @@ export default function AdminTerrainsPage() {
 
   const fetchTerrains = useCallback(async (key: string) => {
     setLoading(true);
-    const res = await fetch("/api/admin/terrains", {
+    const res = await fetch("/api/gervis/terrains", {
       headers: { "x-admin-key": key },
     });
     if (res.ok) {
@@ -71,7 +71,7 @@ export default function AdminTerrainsPage() {
 
   async function toggleStatut(id: string, current: string) {
     const next = current === "disponible" ? "réservé" : current === "réservé" ? "disponible" : current;
-    await fetch("/api/admin/terrains", {
+    await fetch("/api/gervis/terrains", {
       method: "PATCH",
       headers: { "x-admin-key": adminKey(), "Content-Type": "application/json" },
       body: JSON.stringify({ id, statut: next }),
@@ -81,7 +81,7 @@ export default function AdminTerrainsPage() {
 
   async function handleDelete(id: string, titre: string) {
     if (!confirm(`Retirer "${titre}" des offres ?\n(Le terrain sera masqué mais pas supprimé de la base.)`)) return;
-    const res = await fetch("/api/admin/terrains", {
+    const res = await fetch("/api/gervis/terrains", {
       method: "DELETE",
       headers: { "x-admin-key": adminKey(), "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
@@ -148,7 +148,7 @@ export default function AdminTerrainsPage() {
               Voir la page publique ↗
             </Link>
             <Link
-              href="/admin/terrains/nouveau"
+              href="/gervis/terrains/nouveau"
               className="inline-flex items-center gap-2 px-4 py-2 bg-[#059669] text-white text-sm font-semibold rounded-xl hover:bg-[#047857] transition-colors"
             >
               <Plus className="w-4 h-4" />
@@ -174,7 +174,7 @@ export default function AdminTerrainsPage() {
           <div className="bg-white rounded-2xl border border-gray-100 p-16 text-center">
             <p className="text-gray-400 mb-4">Aucune offre créée</p>
             <Link
-              href="/admin/terrains/nouveau"
+              href="/gervis/terrains/nouveau"
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#059669] text-white text-sm font-semibold rounded-xl hover:bg-[#047857] transition-colors"
             >
               <Plus className="w-4 h-4" />
@@ -237,7 +237,7 @@ export default function AdminTerrainsPage() {
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-2 justify-end">
                         <Link
-                          href={`/admin/terrains/${t.id}`}
+                          href={`/gervis/terrains/${t.id}`}
                           className="p-1.5 text-gray-500 hover:text-[#0A2342] transition-colors"
                           title="Modifier"
                         >

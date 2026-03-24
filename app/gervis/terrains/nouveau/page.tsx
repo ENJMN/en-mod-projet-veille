@@ -54,7 +54,7 @@ export default function NouveauTerrainPage() {
     <div className="min-h-screen bg-[#F8F9FA]">
       <div className="bg-[#0A2342] text-white py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link href="/admin/terrains" className="inline-flex items-center gap-1.5 text-gray-400 hover:text-white text-sm mb-4 transition-colors">
+          <Link href="/gervis/terrains" className="inline-flex items-center gap-1.5 text-gray-400 hover:text-white text-sm mb-4 transition-colors">
             <ChevronLeft className="w-4 h-4" />
             Retour aux offres
           </Link>

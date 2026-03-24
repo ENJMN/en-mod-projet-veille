@@ -34,7 +34,7 @@ export default function AdminFormationsPage() {
 
   const fetchFormations = useCallback(async (key: string) => {
     setLoading(true);
-    const res = await fetch("/api/admin/formations", {
+    const res = await fetch("/api/gervis/formations", {
       headers: { "x-admin-key": key },
     });
     if (res.ok) {
@@ -61,7 +61,7 @@ export default function AdminFormationsPage() {
 
   async function togglePublish(id: string, current: boolean) {
     const key = sessionStorage.getItem(ADMIN_KEY_STORAGE) ?? "";
-    await fetch("/api/admin/formations", {
+    await fetch("/api/gervis/formations", {
       method: "PATCH",
       headers: { "x-admin-key": key, "Content-Type": "application/json" },
       body: JSON.stringify({ id, is_published: !current }),
@@ -72,7 +72,7 @@ export default function AdminFormationsPage() {
   async function deleteFormation(id: string) {
     if (!confirm("Supprimer cette formation ?")) return;
     const key = sessionStorage.getItem(ADMIN_KEY_STORAGE) ?? "";
-    await fetch("/api/admin/formations", {
+    await fetch("/api/gervis/formations", {
       method: "DELETE",
       headers: { "x-admin-key": key, "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
@@ -121,10 +121,10 @@ export default function AdminFormationsPage() {
             <h1 className="text-2xl font-black">Gestion des formations</h1>
           </div>
           <div className="flex items-center gap-3">
-            <Link href="/admin/formations/nouvelle" className="px-4 py-2 bg-[#E8861A] text-white text-sm font-semibold rounded-xl hover:bg-[#E8861A]/90 transition-colors">
+            <Link href="/gervis/formations/nouvelle" className="px-4 py-2 bg-[#E8861A] text-white text-sm font-semibold rounded-xl hover:bg-[#E8861A]/90 transition-colors">
               + Nouvelle formation
             </Link>
-            <Link href="/admin/commentaires" className="px-4 py-2 border border-white/20 text-white text-sm font-semibold rounded-xl hover:border-white/40 transition-colors">
+            <Link href="/gervis/commentaires" className="px-4 py-2 border border-white/20 text-white text-sm font-semibold rounded-xl hover:border-white/40 transition-colors">
               Commentaires
             </Link>
           </div>
@@ -138,7 +138,7 @@ export default function AdminFormationsPage() {
           <div className="bg-white rounded-2xl border border-gray-100 p-12 text-center">
             <p className="text-gray-400 mb-4">Aucune formation créée</p>
             <Link
-              href="/admin/formations/nouvelle"
+              href="/gervis/formations/nouvelle"
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#E8861A] text-white text-sm font-semibold rounded-xl hover:bg-[#E8861A]/90 transition-colors"
             >
               Créer la première formation
@@ -184,7 +184,7 @@ export default function AdminFormationsPage() {
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-2 justify-end">
                         <Link
-                          href={`/admin/formations/${f.id}`}
+                          href={`/gervis/formations/${f.id}`}
                           className="px-3 py-1.5 text-xs font-semibold text-[#0A2342] border border-gray-200 rounded-lg hover:border-[#0A2342]/30 transition-colors"
                         >
                           Modifier

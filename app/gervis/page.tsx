@@ -33,10 +33,10 @@ export default function AdminDashboard() {
       const headers = { "x-admin-key": key };
 
       const [terrRes, formRes, artRes, comRes] = await Promise.allSettled([
-        fetch("/api/admin/terrains", { headers }),
-        fetch("/api/admin/formations", { headers }),
-        fetch("/api/admin/articles", { headers }),
-        fetch("/api/admin/comments", { headers }),
+        fetch("/api/gervis/terrains", { headers }),
+        fetch("/api/gervis/formations", { headers }),
+        fetch("/api/gervis/articles", { headers }),
+        fetch("/api/gervis/comments", { headers }),
       ]);
 
       const terrains = terrRes.status === "fulfilled" && terrRes.value.ok ? await terrRes.value.json() : [];
@@ -70,13 +70,13 @@ export default function AdminDashboard() {
 
   const sections = [
     {
-      href: "/admin/terrains",
+      href: "/gervis/terrains",
       label: "Terrains",
       description: "Gérez les offres foncières",
       icon: MapPin,
       color: "bg-[#059669]",
       light: "bg-[#059669]/10 text-[#059669]",
-      createHref: "/admin/terrains/nouveau",
+      createHref: "/gervis/terrains/nouveau",
       createLabel: "Nouvelle offre",
       stat: stats ? `${stats.terrains.total} offre${stats.terrains.total > 1 ? "s" : ""}` : null,
       badges: stats ? [
@@ -85,13 +85,13 @@ export default function AdminDashboard() {
       ].filter(Boolean) : [],
     },
     {
-      href: "/admin/formations",
+      href: "/gervis/formations",
       label: "Formations",
       description: "Gérez le catalogue WAYS Academy",
       icon: GraduationCap,
       color: "bg-[#0A2342]",
       light: "bg-[#0A2342]/10 text-[#0A2342]",
-      createHref: "/admin/formations/nouvelle",
+      createHref: "/gervis/formations/nouvelle",
       createLabel: "Nouvelle formation",
       stat: stats ? `${stats.formations.total} formation${stats.formations.total > 1 ? "s" : ""}` : null,
       badges: stats ? [
@@ -100,7 +100,7 @@ export default function AdminDashboard() {
       ].filter(Boolean) : [],
     },
     {
-      href: "/admin/articles",
+      href: "/gervis/articles",
       label: "Articles / Blog",
       description: "Relisez et publiez les articles générés par IA",
       icon: FileText,
@@ -114,7 +114,7 @@ export default function AdminDashboard() {
       ].filter(Boolean) : [],
     },
     {
-      href: "/admin/commentaires",
+      href: "/gervis/commentaires",
       label: "Commentaires",
       description: "Modérez les commentaires du blog",
       icon: MessageSquare,
@@ -206,15 +206,15 @@ export default function AdminDashboard() {
         <div className="bg-white rounded-2xl border border-gray-100 p-6">
           <h2 className="text-sm font-black text-gray-500 uppercase tracking-wide mb-4">Accès rapides</h2>
           <div className="flex flex-wrap gap-3">
-            <Link href="/admin/terrains/nouveau" className="inline-flex items-center gap-2 px-4 py-2 bg-[#059669] text-white text-sm font-semibold rounded-xl hover:bg-[#047857] transition-colors">
+            <Link href="/gervis/terrains/nouveau" className="inline-flex items-center gap-2 px-4 py-2 bg-[#059669] text-white text-sm font-semibold rounded-xl hover:bg-[#047857] transition-colors">
               <MapPin className="w-4 h-4" />
               Nouvelle offre terrain
             </Link>
-            <Link href="/admin/formations/nouvelle" className="inline-flex items-center gap-2 px-4 py-2 bg-[#0A2342] text-white text-sm font-semibold rounded-xl hover:bg-[#0A2342]/80 transition-colors">
+            <Link href="/gervis/formations/nouvelle" className="inline-flex items-center gap-2 px-4 py-2 bg-[#0A2342] text-white text-sm font-semibold rounded-xl hover:bg-[#0A2342]/80 transition-colors">
               <GraduationCap className="w-4 h-4" />
               Nouvelle formation
             </Link>
-            <Link href="/admin/articles" className="inline-flex items-center gap-2 px-4 py-2 bg-[#7c3aed] text-white text-sm font-semibold rounded-xl hover:bg-[#6d28d9] transition-colors">
+            <Link href="/gervis/articles" className="inline-flex items-center gap-2 px-4 py-2 bg-[#7c3aed] text-white text-sm font-semibold rounded-xl hover:bg-[#6d28d9] transition-colors">
               <FileText className="w-4 h-4" />
               Générer un article
             </Link>
