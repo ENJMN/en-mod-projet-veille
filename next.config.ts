@@ -14,7 +14,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https://img.youtube.com https://*.supabase.co https://*.b-cdn.net",
       "font-src 'self'",
-      "connect-src 'self' https://*.supabase.co https://api.resend.com https://api.anthropic.com",
+      "connect-src 'self' https://*.supabase.co https://api.resend.com https://api.anthropic.com https://api.openai.com",
       "frame-src https://www.youtube.com https://*.b-cdn.net",
       "media-src 'self' https://*.b-cdn.net",
     ].join("; "),
