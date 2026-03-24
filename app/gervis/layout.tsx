@@ -15,6 +15,7 @@ import {
   ExternalLink,
   Star,
   Building2,
+  Search,
 } from "lucide-react";
 
 const ADMIN_KEY_STORAGE = "ways_admin_key";
@@ -27,6 +28,7 @@ const NAV = [
   { href: "/gervis/commentaires", label: "Commentaires", icon: MessageSquare },
   { href: "/gervis/temoignages", label: "Témoignages", icon: Star },
   { href: "/gervis/partenaires", label: "Partenaires", icon: Building2 },
+  { href: "/gervis/audit", label: "Audit Prospection", icon: Search },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

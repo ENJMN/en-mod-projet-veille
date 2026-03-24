@@ -177,9 +177,12 @@ function digitalScore(d: Record<string, unknown>): Section {
 
 // ─── Main handler ────────────────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
-  if (isLimited(ip)) {
-    return NextResponse.json({ error: "Limite atteinte. Réessayez dans une heure." }, { status: 429 });
+  const isAdmin = req.headers.get("x-admin-key") === (process.env.ADMIN_KEY ?? "");
+  if (!isAdmin) {
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
+    if (isLimited(ip)) {
+      return NextResponse.json({ error: "Limite atteinte. Réessayez dans une heure." }, { status: 429 });
+    }
   }
 
   const openaiKey = process.env.OPENAI_API_KEY;
