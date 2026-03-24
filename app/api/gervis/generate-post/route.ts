@@ -123,6 +123,7 @@ export async function POST(req: NextRequest) {
 
   // Sauvegarder le fichier MDX
   const blogsDir = path.join(process.cwd(), "content", "blog");
+  fs.mkdirSync(blogsDir, { recursive: true });
   const filename = `${slug}.mdx`;
   let finalPath = path.join(blogsDir, filename);
 
