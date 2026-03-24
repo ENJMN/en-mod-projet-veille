@@ -21,7 +21,6 @@ const navLinks = [
   { label: "Blog", href: "/blog" },
   { label: "Vidéos", href: "/videos" },
   { label: "Audit gratuit", href: "/audit" },
-  { label: "Contact", href: "/contact" },
 ];
 
 export default function Header() {
