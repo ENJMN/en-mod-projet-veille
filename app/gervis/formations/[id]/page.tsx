@@ -37,7 +37,7 @@ export default function EditFormationPage({ params }: { params: { id: string } }
     level: "Débutant",
     price_xof: 0,
     duration_hours: 0,
-    instructor_name: "N'Guessan Jacques EBAKA",
+    instructor_name: "ENJ",
     objectives: [""],
     requirements: [""],
     is_published: false,

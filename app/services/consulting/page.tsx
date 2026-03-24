@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "WAYS IA & Digital — Transformation Digitale & IA",
   description:
-    "Audit digital, automatisation par IA, intégration ERP/CRM (Dolibarr), développement web. WAYS accompagne les entreprises ivoiriennes dans leur transformation numérique.",
+    "Audit digital, automatisation par IA, intégration ERP/CRM (ERP/CRM), développement web. WAYS accompagne les entreprises ivoiriennes dans leur transformation numérique.",
   openGraph: {
     title: "WAYS IA & Digital — Transformation Digitale & Intelligence Artificielle",
     description:
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 const prestations = [
   { icon: "🔍", title: "Audit de processus & diagnostic digital", description: "Analyse de vos processus métier, identification des gains d'efficacité et des opportunités d'automatisation. Feuille de route personnalisée en sortie." },
   { icon: "🤖", title: "Déploiement d'agents IA", description: "Automatisation des tâches répétitives grâce à des agents IA sur mesure. Réduction des coûts opérationnels et libération du temps de vos équipes." },
-  { icon: "🔗", title: "Intégration ERP/CRM", description: "Déploiement et paramétrage de solutions ERP/CRM (Dolibarr et autres) adaptées à votre activité. Centralisation de vos données et processus." },
+  { icon: "🔗", title: "Intégration ERP/CRM", description: "Déploiement et paramétrage de solutions ERP/CRM adaptées à votre activité. Centralisation de vos données et processus." },
   { icon: "🔄", title: "Transformation digitale globale", description: "Accompagnement end-to-end : diagnostic, stratégie, déploiement des outils et conduite du changement auprès de vos équipes." },
   { icon: "📚", title: "Formation post-déploiement", description: "Formation de vos équipes aux nouveaux outils, support technique et optimisation continue pour garantir l'adoption et le ROI." },
   { icon: "💻", title: "Développement web", description: "Création de sites vitrines et d'applicatifs métier sur mesure. Solutions modernes et performantes adaptées à votre secteur." },

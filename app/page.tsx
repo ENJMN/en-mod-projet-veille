@@ -100,29 +100,41 @@ const processSteps = [
 
 const testimonials = [
   {
-    name: "Kouassi Aimé",
-    role: "Directeur Général",
-    company: "FinTech Abidjan",
-    quote:
-      "WAYS a automatisé nos processus de gestion client en 3 semaines. Nous économisons 15 heures de travail manuel par semaine. Un investissement incroyable.",
-    initials: "KA",
+    name: "Mme Adou",
+    role: "Apprenante",
+    company: "Formation MS Project",
+    quote: "La formation MS Project m'a permis de piloter mes projets avec beaucoup plus de rigueur. Très pratique et directement applicable. Je recommande vivement !",
+    initials: "A",
   },
   {
-    name: "Mariama Traoré",
-    role: "Responsable Formation",
-    company: "Groupe SOGEFI CI",
-    quote:
-      "La formation No-Code de WAYS a transformé notre département RH. Nos équipes créent maintenant leurs propres outils sans dépendre de l'IT. Exceptionnel.",
-    initials: "MT",
+    name: "Mlle Aimée",
+    role: "Apprenante",
+    company: "WAYS Academy",
+    quote: "Une formation de qualité, concrète et bien animée. J'ai acquis des compétences que j'utilise au quotidien. Merci à toute l'équipe WAYS !",
+    initials: "A",
   },
   {
-    name: "Jean-Baptiste Koffi",
-    role: "Promoteur Immobilier",
-    company: "Résidences du Plateau",
-    quote:
-      "Le dashboard de suivi de chantier développé par WAYS nous donne une visibilité totale en temps réel. Nos délais de livraison ont diminué de 20%.",
-    initials: "JK",
+    name: "M. Konan",
+    role: "Gérant",
+    company: "Cabinet de formation",
+    quote: "Un formateur passionné et sachant transmettre.",
+    initials: "K",
   },
+  {
+    name: "Gérant",
+    role: "Dirigeant",
+    company: "Optinov Immobilier SARLU",
+    quote: "WAYS et son équipe sont des partenaires sûrs qui cernent et proposent des solutions adaptées aux besoins de leurs clients.",
+    initials: "O",
+  },
+];
+
+const partenaires = [
+  "LEEC",
+  "Cabinet VINCY CONSEIL",
+  "Optinov SARLU",
+  "Etoiles Services Premium",
+  "Approbat Services",
 ];
 
 const blogPosts = [
@@ -130,7 +142,7 @@ const blogPosts = [
     slug: "automatisation-pme-abidjan",
     title: "Automatisation des PME à Abidjan : par où commencer ?",
     date: "2026-01-15",
-    author: "N'Guessan Jacques EBAKA",
+    author: "ENJ",
     excerpt:
       "Beaucoup de dirigeants ivoiriens savent qu'ils devraient automatiser leurs processus, mais ne savent pas par où commencer. Voici une méthode simple et éprouvée pour franchir le cap.",
     category: "IA & Digital",
@@ -139,7 +151,7 @@ const blogPosts = [
     slug: "nocode-outils-entreprises-afrique",
     title: "No-Code & IA : les outils qui changent la donne pour les entreprises africaines",
     date: "2026-02-05",
-    author: "N'Guessan Jacques EBAKA",
+    author: "ENJ",
     excerpt:
       "Le No-Code et l'intelligence artificielle démocratisent l'accès à la technologie. Voici les outils concrets que les entreprises africaines peuvent adopter dès aujourd'hui.",
     category: "Formation",
@@ -148,7 +160,7 @@ const blogPosts = [
     slug: "tableau-bord-kpi-btp",
     title: "Tableau de bord KPI pour les projets BTP : pilotez votre chantier en temps réel",
     date: "2026-02-20",
-    author: "N'Guessan Jacques EBAKA",
+    author: "ENJ",
     excerpt:
       "Les dépassements de budget et les retards de chantier coûtent des millions aux promoteurs ivoiriens. Un tableau de bord KPI bien conçu peut transformer votre manière de piloter.",
     category: "BTP",
@@ -356,6 +368,22 @@ export default function HomePage() {
                     <p className="text-gray-500 text-xs">{t.role} — {t.company}</p>
                   </div>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Partenaires */}
+      <section className="bg-white py-14 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-8">
+            Ils nous font confiance
+          </p>
+          <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6">
+            {partenaires.map((nom) => (
+              <div key={nom} className="px-6 py-3 bg-[#F8F9FA] rounded-xl border border-gray-100 text-sm font-semibold text-[#0A2342] hover:border-[#E8861A] hover:text-[#E8861A] transition-colors">
+                {nom}
               </div>
             ))}
           </div>

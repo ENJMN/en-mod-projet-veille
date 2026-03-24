@@ -253,6 +253,65 @@ export type Database = {
         };
         Relationships: [];
       };
+      temoignages: {
+        Row: {
+          id: string;
+          prenom: string;
+          role: string | null;
+          entreprise: string | null;
+          citation: string;
+          is_published: boolean;
+          ordre: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          prenom: string;
+          role?: string | null;
+          entreprise?: string | null;
+          citation: string;
+          is_published?: boolean;
+          ordre?: number;
+          created_at?: string;
+        };
+        Update: {
+          prenom?: string;
+          role?: string | null;
+          entreprise?: string | null;
+          citation?: string;
+          is_published?: boolean;
+          ordre?: number;
+        };
+        Relationships: [];
+      };
+      partenaires: {
+        Row: {
+          id: string;
+          nom: string;
+          logo_url: string | null;
+          site_url: string | null;
+          is_published: boolean;
+          ordre: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          nom: string;
+          logo_url?: string | null;
+          site_url?: string | null;
+          is_published?: boolean;
+          ordre?: number;
+          created_at?: string;
+        };
+        Update: {
+          nom?: string;
+          logo_url?: string | null;
+          site_url?: string | null;
+          is_published?: boolean;
+          ordre?: number;
+        };
+        Relationships: [];
+      };
       terrains: {
         Row: {
           id: string;

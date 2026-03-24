@@ -17,7 +17,7 @@ export default function NouvelleFormationPage() {
     level: "Débutant",
     price_xof: 0,
     duration_hours: 0,
-    instructor_name: "N'Guessan Jacques EBAKA",
+    instructor_name: "ENJ",
     objectives: [""],
     requirements: [""],
   });

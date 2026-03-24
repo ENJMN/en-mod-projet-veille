@@ -60,7 +60,7 @@ Rédige un article de blog complet, optimisé SEO, en français, d'un minimum de
 ---
 title: "[titre accrocheur incluant le mot-clé principal, max 65 caractères]"
 date: "${todayISO()}"
-author: "N'Guessan Jacques EBAKA"
+author: "ENJ"
 excerpt: "[meta description SEO de 150-160 caractères, inclut le mot-clé principal et donne envie de cliquer]"
 category: "${category}"
 draft: true
