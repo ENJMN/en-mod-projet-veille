@@ -312,6 +312,31 @@ export type Database = {
         };
         Relationships: [];
       };
+      audit_leads: {
+        Row: {
+          id: string;
+          email: string;
+          phone: string | null;
+          url: string;
+          score: number | null;
+          report: Json | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          email: string;
+          phone?: string | null;
+          url: string;
+          score?: number | null;
+          report?: Json | null;
+          created_at?: string;
+        };
+        Update: {
+          score?: number | null;
+          report?: Json | null;
+        };
+        Relationships: [];
+      };
       terrains: {
         Row: {
           id: string;
