@@ -125,7 +125,7 @@ export default function Footer() {
                 </svg>
                 <span className="text-gray-400 text-sm leading-relaxed">
                   Abidjan, Côte d'Ivoire<br />
-                  Plateau — Cocody
+                  Cocody Angré
                 </span>
               </li>
               <li className="flex items-center gap-3">
@@ -167,7 +167,7 @@ export default function Footer() {
             © 2026 WAYS Digital Solutions. Tous droits réservés.
           </p>
           <p className="text-gray-600 text-xs">
-            Consulting · Formation · BTP & Immobilier · Data
+            Consulting · Formation · BTP & Immobilier · IA & Digital
           </p>
         </div>
       </div>

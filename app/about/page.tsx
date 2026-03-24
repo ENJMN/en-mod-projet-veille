@@ -50,8 +50,12 @@ const expertise = [
     items: ["Formateur agréé FDFP", "Formation en gestion de projet", "Ingénierie pédagogique"],
   },
   {
-    category: "BTP, Immobilier & Digital",
-    items: ["Maîtrise d'œuvre et AMO", "Gestion permis et aspects réglementaires", "Intégration ERP/CRM (Dolibarr)", "Intégration solutions No-Code & Low-Code", "Automatisation IA", "Développement web (HTML, CSS, JavaScript)"],
+    category: "BTP & Immobilier",
+    items: ["Maîtrise d'œuvre et AMO", "Gestion permis et aspects réglementaires", "Coordination chantier et suivi travaux", "Prospection foncière et aspects juridiques"],
+  },
+  {
+    category: "IA & Digital",
+    items: ["Intégration ERP/CRM (Dolibarr)", "Intégration solutions No-Code & Low-Code", "Automatisation IA (n8n, Make, Zapier)", "Développement web (HTML, CSS, JavaScript)"],
   },
 ];
 

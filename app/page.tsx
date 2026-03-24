@@ -191,6 +191,12 @@ export default function HomePage() {
               >
                 Contactez-nous
               </Link>
+              <Link
+                href="/terrains"
+                className="px-6 py-3 bg-[#059669] text-white font-semibold rounded-xl hover:bg-[#047857] transition-colors text-sm md:text-base"
+              >
+                🏡 Offres de terrains
+              </Link>
             </div>
           </div>
         </div>
@@ -379,6 +385,34 @@ export default function HomePage() {
             {blogPosts.map((post) => (
               <BlogCard key={post.slug} {...post} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Terrains Banner */}
+      <section className="bg-[#059669] text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div>
+              <span className="inline-block px-2.5 py-0.5 bg-white/20 text-white text-xs font-semibold rounded-full mb-2">
+                WAYS Build — Offres foncières
+              </span>
+              <h2 className="text-2xl md:text-3xl font-black">
+                Consultez nos offres de terrains en ce moment
+              </h2>
+              <p className="text-white/80 text-sm mt-1">
+                Terrains résidentiels et commerciaux avec titres fonciers — Abidjan, Côte d'Ivoire
+              </p>
+            </div>
+            <Link
+              href="/terrains"
+              className="shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-white text-[#059669] font-bold rounded-xl hover:bg-white/90 transition-colors text-sm whitespace-nowrap"
+            >
+              Voir les offres
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
           </div>
         </div>
       </section>

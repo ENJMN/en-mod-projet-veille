@@ -7,7 +7,19 @@
       "WebFetch(domain:blog.mean.ceo)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(grep -v AppData find C:/Users/HP -maxdepth 3 -name requirements.txt)",
+      "Bash(grep -v AppData find C:/Users/HP -maxdepth 3 -name manage.py)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --no-src-dir --import-alias=\"@/*\" --yes)",
+      "Bash(npm install:*)",
+      "Bash(find 'C:/Users/HP/ways youtube/.claude/worktrees/pedantic-elbakyan' -type f -name *.tsx -o -name *.ts -o -name *.mdx)",
+      "Bash(npx tsc:*)",
+      "Bash(npm run:*)",
+      "Bash(npx next:*)",
+      "Bash(cp \"c:/Users/HP/ways youtube/.claude/worktrees/pedantic-elbakyan/public/LOGO JACQUES - W.png\" \"c:/Users/HP/ways youtube/.claude/worktrees/pedantic-elbakyan/public/logo-icon.png\")",
+      "Bash(cp \"c:/Users/HP/ways youtube/.claude/worktrees/pedantic-elbakyan/public/LOGO JACQUES..png\" \"c:/Users/HP/ways youtube/.claude/worktrees/pedantic-elbakyan/public/logo-full.png\")",
+      "Bash(node -e \"const p = require\\(''./node_modules/@supabase/supabase-js/package.json''\\); console.log\\(p.version\\)\")",
+      "Bash(node -e \"const p=require\\(''./package.json''\\); console.log\\(Object.keys\\({...p.dependencies,...p.devDependencies}\\).join\\(''\\\\n''\\)\\)\")"
     ]
   }
 }

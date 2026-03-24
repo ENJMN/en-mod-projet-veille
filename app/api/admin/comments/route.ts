@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAllComments, updateComment, deleteComment } from "@/lib/comments";
 
+import { checkAdminKey } from "@/lib/admin-auth";
+
 function checkAuth(req: NextRequest): boolean {
-  const key = req.headers.get("x-admin-key");
-  const adminKey = process.env.ADMIN_KEY ?? "ways-admin-2026";
-  return key === adminKey;
+  return checkAdminKey(req);
 }
 
 export async function GET(req: NextRequest) {

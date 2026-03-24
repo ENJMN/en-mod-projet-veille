@@ -82,6 +82,25 @@ export default function WaysBuildPage() {
         </div>
       </section>
 
+      {/* Terrain CTA */}
+      <section className="bg-[#059669]/10 border-y border-[#059669]/20 py-10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div>
+              <p className="text-xs font-semibold text-[#059669] uppercase tracking-wide mb-1">Opportunités foncières</p>
+              <h2 className="text-xl font-black text-[#0A2342]">Terrains à vendre en Côte d'Ivoire</h2>
+              <p className="text-gray-600 text-sm mt-1">Titres fonciers garantis — résidentiel & commercial</p>
+            </div>
+            <Link
+              href="/terrains"
+              className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-[#059669] text-white font-semibold rounded-xl hover:bg-[#059669]/90 transition-colors text-sm"
+            >
+              Voir les offres disponibles →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-[#0A2342] text-white py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-black mb-4">Un projet de construction ou d'investissement immobilier ?</h2>

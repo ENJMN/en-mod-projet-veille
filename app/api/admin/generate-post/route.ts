@@ -3,7 +3,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import fs from "fs";
 import path from "path";
 
-const ADMIN_KEY = process.env.ADMIN_KEY ?? "ways-admin-2026";
+import { checkAdminKey } from "@/lib/admin-auth";
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY ?? "";
 
 interface Topic {
@@ -93,8 +93,7 @@ Génère maintenant l'article complet, sans commentaire introductif — commence
 
 export async function POST(req: NextRequest) {
   // Auth
-  const key = req.headers.get("x-admin-key");
-  if (key !== ADMIN_KEY) {
+  if (!checkAdminKey(req)) {
     return NextResponse.json({ error: "Non autorisé." }, { status: 401 });
   }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -12,9 +12,12 @@ const services = [
   { label: "WAYS Academy & Supply", href: "/services/formation" },
 ];
 
+const terrainLink = { label: "Terrains à vendre", href: "/terrains" };
+
 const navLinks = [
   { label: "Accueil", href: "/" },
   { label: "À propos", href: "/about" },
+  { label: "Formations", href: "/formations" },
   { label: "Blog", href: "/blog" },
   { label: "Vidéos", href: "/videos" },
   { label: "Contact", href: "/contact" },
@@ -27,8 +30,19 @@ export default function Header() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const isActive = (href: string) => pathname === href;
   const isServiceActive = services.some((s) => pathname === s.href);
+
+  function openServices() {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setServicesOpen(true);
+  }
+
+  function closeServices() {
+    closeTimer.current = setTimeout(() => setServicesOpen(false), 100);
+  }
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -75,12 +89,15 @@ export default function Header() {
             {/* Services dropdown */}
             <div
               className="relative"
-              onMouseEnter={() => setServicesOpen(true)}
-              onMouseLeave={() => setServicesOpen(false)}
+              onMouseEnter={openServices}
+              onMouseLeave={closeServices}
             >
-              <button className={`flex items-center gap-1 text-sm font-medium transition-colors ${
-                isServiceActive ? "text-[#E8861A] font-bold" : "text-[#1A1A2E] hover:text-[#E8861A]"
-              }`}>
+              <button
+                onClick={() => setServicesOpen(!servicesOpen)}
+                className={`flex items-center gap-1 text-sm font-medium transition-colors ${
+                  isServiceActive ? "text-[#E8861A] font-bold" : "text-[#1A1A2E] hover:text-[#E8861A]"
+                }`}
+              >
                 Services
                 <svg
                   className={`w-4 h-4 transition-transform ${servicesOpen ? "rotate-180" : ""}`}
@@ -94,20 +111,45 @@ export default function Header() {
               </button>
 
               {servicesOpen && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
-                  {services.map((s) => (
+                <div
+                  className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-64 z-50"
+                  onMouseEnter={openServices}
+                  onMouseLeave={closeServices}
+                >
+                  <div className="bg-white rounded-xl shadow-xl border border-gray-100 py-2">
+                    {services.map((s) => (
+                      <Link
+                        key={s.href}
+                        href={s.href}
+                        onClick={() => setServicesOpen(false)}
+                        className={`block px-4 py-2.5 text-sm transition-colors ${
+                          isActive(s.href)
+                            ? "bg-[#0A2342]/5 text-[#E8861A] font-semibold border-l-2 border-[#E8861A]"
+                            : "text-[#1A1A2E] hover:bg-[#F8F9FA] hover:text-[#E8861A]"
+                        }`}
+                      >
+                        {s.label}
+                      </Link>
+                    ))}
+                    <div className="mx-3 my-1.5 border-t border-gray-100" />
                     <Link
-                      key={s.href}
-                      href={s.href}
-                      className={`block px-4 py-2.5 text-sm transition-colors ${
-                        isActive(s.href)
-                          ? "bg-[#0A2342]/5 text-[#E8861A] font-semibold border-l-2 border-[#E8861A]"
-                          : "text-[#1A1A2E] hover:bg-[#F8F9FA] hover:text-[#E8861A]"
+                      href={terrainLink.href}
+                      onClick={() => setServicesOpen(false)}
+                      className={`flex items-center gap-2 px-4 py-2.5 text-sm transition-colors ${
+                        isActive(terrainLink.href)
+                          ? "bg-[#059669]/5 text-[#059669] font-semibold border-l-2 border-[#059669]"
+                          : "text-[#059669] hover:bg-[#059669]/5"
                       }`}
                     >
-                      {s.label}
+                      <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                      </svg>
+                      {terrainLink.label}
                     </Link>
-                  ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -209,6 +251,18 @@ export default function Header() {
                       {s.label}
                     </Link>
                   ))}
+                  <div className="mx-1 border-t border-gray-100" />
+                  <Link
+                    href={terrainLink.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={`flex items-center gap-2 px-3 py-2 text-sm rounded-lg transition-colors ${
+                      isActive(terrainLink.href)
+                        ? "text-[#059669] bg-[#059669]/10 font-semibold"
+                        : "text-[#059669] hover:bg-[#059669]/10"
+                    }`}
+                  >
+                    {terrainLink.label}
+                  </Link>
                 </div>
               )}
             </div>

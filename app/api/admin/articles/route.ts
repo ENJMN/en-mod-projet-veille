@@ -3,11 +3,11 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-const ADMIN_KEY = process.env.ADMIN_KEY ?? "ways-admin-2026";
+import { checkAdminKey } from "@/lib/admin-auth";
 const BLOG_DIR = path.join(process.cwd(), "content", "blog");
 
 function checkAuth(req: NextRequest): boolean {
-  return req.headers.get("x-admin-key") === ADMIN_KEY;
+  return checkAdminKey(req);
 }
 
 function countWords(text: string): number {
