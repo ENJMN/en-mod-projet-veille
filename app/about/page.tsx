@@ -88,7 +88,7 @@ const certifications = [
   { label: "Préparation PRINCE2 Foundation & Pract.", detail: "Cabinet MIT Institute — Abidjan (2025)" },
   { label: "Certificat Consultant / Formateur", detail: "KEN'S COMPANY — Abidjan (2024) — Agréé FDFP" },
   { label: "Formation Développement Web", detail: "GoMyCode Abidjan (2024) — HTML, CSS, JS, Git" },
-  { label: "Membre actif", detail: "PMI Chapitre Côte d'Ivoire" },
+  { label: "Membre", detail: "PMI Chapitre Côte d'Ivoire" },
 ];
 
 export default function AboutPage() {
@@ -181,22 +181,20 @@ export default function AboutPage() {
                   <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider">Fondateur</p>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-2xl font-black text-[#0A2342] mb-1">N'Guessan Jacques EBAKA</h3>
-                  <p className="text-[#E8861A] font-semibold mb-4">Fondateur & Directeur Général — WAYS</p>
-                  <p className="text-gray-500 text-sm italic mb-4">
-                    Ingénieur Projets | Consultant Formateur | Expert en Management des Organisations
+                  <h3 className="text-xl font-bold text-[#0A2342] mb-1">N'Guessan Jacques EBAKA</h3>
+                  <p className="text-[#E8861A] font-semibold text-sm mb-3">Directeur Général — WAYS Digital Solutions</p>
+                  <p className="text-gray-500 text-xs italic mb-4">
+                    Ingénieur Projets · Consultant Formateur · Expert en Management des Organisations
                   </p>
-                  <p className="text-gray-600 leading-relaxed mb-4">
-                    Avec plus de 10 années d'expérience dans la gestion de projets complexes,
-                    la transformation organisationnelle et la formation professionnelle, Jacques est un
-                    expert reconnu dans le management de projet, la stratégie d'entreprise et
-                    l'intégration de solutions digitales.
+                  <p className="text-gray-600 text-sm leading-relaxed mb-3">
+                    Plus de 10 ans d'expérience en gestion de projets complexes, transformation organisationnelle
+                    et formation professionnelle. Expert en management de projet, stratégie d'entreprise et
+                    intégration de solutions digitales.
                   </p>
-                  <p className="text-gray-600 leading-relaxed">
-                    Membre actif du <strong>PMI Chapitre Côte d'Ivoire</strong>, il maîtrise les méthodologies
-                    PMI, PRINCE2 et GAR, et les applique avec pragmatisme dans des contextes africains variés
-                    (BTP, hôtellerie, immobilier, services professionnels). Formateur agréé <strong>FDFP</strong> (Côte d'Ivoire), il conçoit et anime des programmes de formation
-                    sur mesure pour les entreprises et institutions.
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    Membre <strong>PMI</strong> · Méthodologies PMI, PRINCE2 et GAR appliquées dans des contextes africains variés
+                    (BTP, hôtellerie, immobilier, services professionnels). Formateur agréé <strong>FDFP</strong>, conception et animation
+                    de programmes de formation sur mesure.
                   </p>
 
                   {/* Certifications */}
