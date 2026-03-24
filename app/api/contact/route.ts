@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { rateLimit, getIP } from "@/lib/rate-limit";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const TO_EMAIL = process.env.CONTACT_EMAIL ?? "contact@ways-ci.com";
 
 export async function POST(req: NextRequest) {
+  const { allowed } = rateLimit(getIP(req), { max: 5, windowMs: 60_000 });
+  if (!allowed) {
+    return NextResponse.json({ error: "Trop de requêtes. Réessayez dans une minute." }, { status: 429 });
+  }
+
   try {
     const body = await req.json();
     const { nom, email, telephone, bu, typeDemande, sujet, budget, source, message } = body;
