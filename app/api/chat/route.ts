@@ -98,7 +98,9 @@ export async function POST(req: NextRequest) {
 
     const reply = completion.choices[0]?.message?.content ?? "Je n'ai pas pu générer une réponse. Contactez-nous via WhatsApp au +225 07 05 13 31 31.";
     return NextResponse.json({ reply });
-  } catch {
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("[chat] OpenAI error:", msg);
     return NextResponse.json({ error: "Erreur du service. Contactez-nous via WhatsApp au +225 07 05 13 31 31." }, { status: 500 });
   }
 }
