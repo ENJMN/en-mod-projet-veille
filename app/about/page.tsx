@@ -55,7 +55,7 @@ const expertise = [
   },
   {
     category: "IA & Digital",
-    items: ["Intégration ERP/CRM (Dolibarr)", "Intégration solutions No-Code & Low-Code", "Automatisation IA (n8n, Make, Zapier)", "Développement web (HTML, CSS, JavaScript)"],
+    items: ["Automatisation IA (n8n, Make, Zapier)", "Intégration solutions No-Code & Low-Code", "Développement web (Next.js, React, TypeScript)", "Développement application mobile (React Native, Flutter)", "Intégration ERP/CRM et outils métiers"],
   },
 ];
 
