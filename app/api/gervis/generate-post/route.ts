@@ -107,7 +107,7 @@ export async function POST(req: NextRequest) {
 
   const message = await client.chat.completions.create({
     model: "gpt-4o",
-    max_tokens: 8000,
+    max_tokens: 16000,
     messages: [{ role: "user", content: buildPrompt(topic, category, keywords) }],
   });
 
@@ -115,8 +115,11 @@ export async function POST(req: NextRequest) {
   if (!articleText) {
     return NextResponse.json({ error: "Réponse inattendue de l'API OpenAI." }, { status: 500 });
   }
-  // Supprimer les balises markdown ```mdx ou ```markdown si GPT les ajoute
-  articleText = articleText.replace(/^```(?:mdx|markdown)?\s*/i, "").replace(/\s*```\s*$/, "").trim();
+  // Supprimer les balises markdown ```md / ```mdx / ```markdown si GPT les ajoute
+  articleText = articleText.replace(/^```(?:mdx?|markdown)?\s*/i, "").replace(/\s*```\s*$/, "").trim();
+  // Supprimer tout ce qui précède le premier --- (au cas où il reste un préfixe parasite)
+  const frontmatterStart = articleText.indexOf("---");
+  if (frontmatterStart > 0) articleText = articleText.slice(frontmatterStart);
 
   // Générer le slug depuis le titre dans le frontmatter
   const titleMatch = articleText.match(/^title:\s*["']?(.+?)["']?\s*$/m);
