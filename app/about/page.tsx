@@ -61,14 +61,9 @@ const expertise = [
 
 const milestones = [
   {
-    year: "2014–2019",
-    title: "Terrain & Expertise BTP",
-    description: "+300 dossiers de permis de construire traités. Missions BTP en Côte d'Ivoire et au Bénin (tuyauterie 50 km, infrastructures télécom).",
-  },
-  {
-    year: "2019–2020",
-    title: "AMO Immobilier",
-    description: "Assistance à Maîtrise d'Ouvrage — Projet SONGON (SCI Venise). Prospection foncière et coordination des aspects juridiques.",
+    year: "2026",
+    title: "Création de WAYS",
+    description: "Fondation de WAYS — We Act for Your Success — née de la transformation de WAS GROUPE CI, avec une vision claire : le conseil opérationnel à intelligence augmentée.",
   },
   {
     year: "2020–2024",
@@ -76,9 +71,14 @@ const milestones = [
     description: "Pilotage de 10+ projets selon les standards PMI au sein d'un groupe hôtelier & BTP (Méga Challenge). Transformation organisationnelle à grande échelle.",
   },
   {
-    year: "2026",
-    title: "Création de WAYS",
-    description: "Fondation de WAYS — We Act for Your Success — née de la transformation de WAS GROUPE CI, avec une vision claire : le conseil opérationnel à intelligence augmentée.",
+    year: "2019–2020",
+    title: "AMO Immobilier",
+    description: "Assistance à Maîtrise d'Ouvrage — Projet SONGON (SCI Venise). Prospection foncière et coordination des aspects juridiques.",
+  },
+  {
+    year: "2014–2019",
+    title: "Terrain & Expertise BTP",
+    description: "+300 dossiers de permis de construire traités. Missions BTP en Côte d'Ivoire et au Bénin (tuyauterie 50 km, infrastructures télécom).",
   },
 ];
 
