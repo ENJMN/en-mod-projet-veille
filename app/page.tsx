@@ -171,13 +171,16 @@ const blogPosts = [
 export default async function HomePage() {
   const supabase = createAdminClient();
 
+  type TemoignageRow = { id: string; prenom: string; role: string | null; entreprise: string | null; citation: string; ordre: number };
+  type PartenaireRow = { id: string; nom: string; logo_url: string | null; ordre: number };
+
   const [{ data: temoignagesDB }, { data: partenairesDB }] = await Promise.all([
-    supabase.from("temoignages").select("*").eq("is_published", true).order("ordre"),
-    supabase.from("partenaires").select("*").eq("is_published", true).order("ordre"),
+    supabase.from("temoignages").select("id, prenom, role, entreprise, citation, ordre").eq("is_published", true).order("ordre"),
+    supabase.from("partenaires").select("id, nom, logo_url, ordre").eq("is_published", true).order("ordre"),
   ]);
 
   const displayTestimonials = temoignagesDB && temoignagesDB.length > 0
-    ? temoignagesDB.map(t => ({
+    ? (temoignagesDB as TemoignageRow[]).map(t => ({
         name: t.prenom,
         role: t.role ?? "",
         company: t.entreprise ?? "",
@@ -187,7 +190,7 @@ export default async function HomePage() {
     : testimonials;
 
   const displayPartenaires = partenairesDB && partenairesDB.length > 0
-    ? partenairesDB.map(p => ({ nom: p.nom, logo_url: p.logo_url }))
+    ? (partenairesDB as PartenaireRow[]).map(p => ({ nom: p.nom, logo_url: p.logo_url }))
     : partenaires.map(nom => ({ nom, logo_url: null }));
 
   return (
