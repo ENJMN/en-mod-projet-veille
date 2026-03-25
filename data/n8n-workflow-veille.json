@@ -1,0 +1,277 @@
+{
+  "name": "WAYS — Veille automatique articles",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "sticky-intro",
+      "name": "📋 Description du workflow",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-200, -300],
+      "parameters": {
+        "content": "## 🗞️ Veille automatique WAYS\n\nCe workflow tourne **chaque dimanche à 20h**.\n\n**Ce qu'il fait :**\n1. Récupère les dernières actualités depuis 3 flux RSS (tech Afrique, business CI, digital)\n2. Filtre les articles pertinents pour WAYS (IA, digital, BTP, formation, stratégie)\n3. Génère des sujets d'articles adaptés au contexte ivoirien\n4. Les envoie dans la queue ways-ci.com\n5. La cron VPS générera les articles automatiquement (lun/mer/ven 6h30)\n\n**Variables à configurer :**\n- `ADMIN_KEY` dans le nœud HTTP final\n- Vérifier l'URL du site dans le nœud HTTP final",
+        "height": 280,
+        "width": 400
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "weeksInterval": 1,
+              "triggerAtDay": [0],
+              "triggerAtHour": 20,
+              "triggerAtMinute": 0
+            }
+          ]
+        }
+      },
+      "id": "schedule-node",
+      "name": "⏰ Déclencheur hebdomadaire",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [0, 0],
+      "notes": "Se déclenche chaque dimanche à 20h. Modifiez l'heure ici si besoin."
+    },
+    {
+      "parameters": {
+        "content": "## ⏰ Déclencheur\nSe déclenche automatiquement chaque **dimanche à 20h**.\n\nPour tester manuellement : cliquez **\"Execute node\"** sur ce nœud.",
+        "height": 120,
+        "width": 260
+      },
+      "id": "sticky-schedule",
+      "name": "Note déclencheur",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [0, -160]
+    },
+    {
+      "parameters": {
+        "url": "https://techcabal.com/feed/",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "rss-techcabal",
+      "name": "📡 RSS TechCabal (tech Afrique)",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [280, -120]
+    },
+    {
+      "parameters": {
+        "url": "https://www.jeuneafrique.com/feed/",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "rss-jeuneafrique",
+      "name": "📡 RSS Jeune Afrique (business)",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [280, 60]
+    },
+    {
+      "parameters": {
+        "url": "https://www.lemonde.fr/economie/rss_full.xml",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "rss-lemonde",
+      "name": "📡 RSS Le Monde Economie (tendances)",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [280, 240]
+    },
+    {
+      "parameters": {
+        "content": "## 📡 Sources RSS\nCes 3 nœuds récupèrent les dernières actualités :\n\n- **TechCabal** : tech & startups Afrique\n- **Jeune Afrique** : business & économie Afrique\n- **Le Monde Économie** : tendances mondiales\n\n💡 Vous pouvez ajouter d'autres sources RSS en dupliquant un nœud et en changeant l'URL.",
+        "height": 200,
+        "width": 320
+      },
+      "id": "sticky-rss",
+      "name": "Note RSS",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [280, -280]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combinationMode": "mergeByPosition",
+        "options": {}
+      },
+      "id": "merge-node",
+      "name": "🔀 Fusionner les flux",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [560, 60]
+    },
+    {
+      "parameters": {
+        "content": "## 🔀 Fusion\nRassemble tous les articles des 3 sources en une seule liste pour le traitement.",
+        "height": 100,
+        "width": 240
+      },
+      "id": "sticky-merge",
+      "name": "Note merge",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [560, -100]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================\n// FILTRE ET GÉNÉRATION DE SUJETS D'ARTICLES\n// ============================================\n// Ce nœud analyse les titres des actualités et\n// génère des sujets d'articles adaptés à WAYS.\n// Modifiez les mots-clés selon vos besoins.\n\nconst MOTS_CLES = [\n  // Digital & IA\n  'intelligence artificielle', 'ia', 'digital', 'numérique', 'tech', 'startup',\n  'automatisation', 'chatbot', 'data', 'cloud', 'logiciel', 'erp', 'crm',\n  // Business & Stratégie\n  'entreprise', 'pme', 'tpe', 'management', 'stratégie', 'croissance',\n  'financement', 'investissement', 'export', 'marché', 'compétitivité',\n  // BTP & Immobilier\n  'btp', 'construction', 'immobilier', 'infrastructure', 'chantier', 'bâtiment',\n  // Formation\n  'formation', 'compétence', 'emploi', 'talent', 'rh', 'ressources humaines',\n  // Afrique & CI\n  'afrique', 'côte d\\'ivoire', 'abidjan', 'uemoa', 'cedeao', 'afrique de l\\'ouest'\n];\n\nconst CATEGORIES = {\n  'ia': 'IA & Digital', 'intelligence artificielle': 'IA & Digital', 'digital': 'IA & Digital',\n  'numérique': 'IA & Digital', 'tech': 'IA & Digital', 'startup': 'IA & Digital',\n  'automatisation': 'IA & Digital', 'data': 'IA & Digital', 'cloud': 'IA & Digital',\n  'logiciel': 'IA & Digital', 'erp': 'IA & Digital', 'chatbot': 'IA & Digital',\n  'management': 'Stratégie', 'stratégie': 'Stratégie', 'entreprise': 'Stratégie',\n  'pme': 'Stratégie', 'croissance': 'Stratégie', 'investissement': 'Stratégie',\n  'btp': 'BTP', 'construction': 'BTP', 'immobilier': 'BTP', 'infrastructure': 'BTP',\n  'formation': 'Formation', 'compétence': 'Formation', 'talent': 'Formation', 'rh': 'Formation'\n};\n\nconst items = $input.all();\nconst sujets = [];\nconst vus = new Set();\n\nfor (const item of items) {\n  const titre = (item.json.title || '').toLowerCase();\n  const description = (item.json.contentSnippet || item.json.summary || '').toLowerCase();\n  const texte = titre + ' ' + description;\n\n  // Vérifier si l'article est pertinent\n  const motTrouve = MOTS_CLES.find(mot => texte.includes(mot));\n  if (!motTrouve) continue;\n\n  // Déterminer la catégorie\n  let categorie = 'Stratégie';\n  for (const [mot, cat] of Object.entries(CATEGORIES)) {\n    if (texte.includes(mot)) { categorie = cat; break; }\n  }\n\n  // Générer un sujet adapté au contexte WAYS\n  const titreOriginal = item.json.title || '';\n  const sujet = `${titreOriginal} — Enjeux et opportunités pour les entreprises en Côte d'Ivoire`;\n\n  // Éviter les doublons\n  const cle = sujet.slice(0, 50).toLowerCase();\n  if (vus.has(cle)) continue;\n  vus.add(cle);\n\n  sujets.push({\n    json: {\n      topic: sujet,\n      category: categorie,\n      keywords: [motTrouve, 'Côte d\\'Ivoire', 'Afrique de l\\'Ouest', categorie.toLowerCase()],\n      source: 'n8n-veille-auto'\n    }\n  });\n\n  // Limiter à 5 sujets par session\n  if (sujets.length >= 5) break;\n}\n\nif (sujets.length === 0) {\n  return [{ json: { skip: true, message: 'Aucun sujet pertinent trouvé cette semaine.' } }];\n}\n\nreturn sujets;"
+      },
+      "id": "code-node",
+      "name": "🧠 Filtrer et générer les sujets",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [840, 60]
+    },
+    {
+      "parameters": {
+        "content": "## 🧠 Filtre intelligent\nCe nœud analyse les actualités et :\n\n1. Filtre les articles contenant des mots-clés pertinents (IA, BTP, formation, etc.)\n2. Détermine la catégorie WAYS (IA & Digital, Stratégie, BTP, Formation)\n3. Adapte le titre pour le contexte ivoirien\n4. Limite à **5 sujets maximum** par session\n\n💡 Modifiez `MOTS_CLES` pour affiner le filtre.",
+        "height": 200,
+        "width": 300
+      },
+      "id": "sticky-code",
+      "name": "Note code",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [840, -200]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.skip }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "notEquals"
+              }
+            }
+          ]
+        }
+      },
+      "id": "if-node",
+      "name": "❓ Des sujets trouvés ?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1100, 60]
+    },
+    {
+      "parameters": {
+        "content": "## ❓ Vérification\nSi aucun sujet pertinent n'a été trouvé cette semaine, le workflow s'arrête ici sans erreur.\n\nSi des sujets existent → ils sont envoyés à ways-ci.com.",
+        "height": 130,
+        "width": 260
+      },
+      "id": "sticky-if",
+      "name": "Note if",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1100, -140]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://ways-ci.com/api/gervis/topics",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-admin-key",
+              "value": "VOTRE_ADMIN_KEY_ICI"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "topic",
+              "value": "={{ $json.topic }}"
+            },
+            {
+              "name": "category",
+              "value": "={{ $json.category }}"
+            },
+            {
+              "name": "keywords",
+              "value": "={{ $json.keywords }}"
+            },
+            {
+              "name": "source",
+              "value": "={{ $json.source }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "http-node",
+      "name": "📤 Envoyer à ways-ci.com",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1380, 0]
+    },
+    {
+      "parameters": {
+        "content": "## 📤 Envoi à WAYS\n⚠️ **Action requise** : remplacez `VOTRE_ADMIN_KEY_ICI` dans les headers par votre vraie clé admin (la même que dans `.env.local`).\n\nCe nœud envoie chaque sujet un par un à l'API `/api/gervis/topics`. Les sujets apparaîtront ensuite dans la queue et seront traités par la cron VPS (lun/mer/ven à 6h30).",
+        "height": 180,
+        "width": 320
+      },
+      "id": "sticky-http",
+      "name": "Note HTTP",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1380, -220]
+    }
+  ],
+  "connections": {
+    "⏰ Déclencheur hebdomadaire": {
+      "main": [
+        [
+          { "node": "📡 RSS TechCabal (tech Afrique)", "type": "main", "index": 0 },
+          { "node": "📡 RSS Jeune Afrique (business)", "type": "main", "index": 0 },
+          { "node": "📡 RSS Le Monde Economie (tendances)", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "📡 RSS TechCabal (tech Afrique)": {
+      "main": [[{ "node": "🔀 Fusionner les flux", "type": "main", "index": 0 }]]
+    },
+    "📡 RSS Jeune Afrique (business)": {
+      "main": [[{ "node": "🔀 Fusionner les flux", "type": "main", "index": 1 }]]
+    },
+    "📡 RSS Le Monde Economie (tendances)": {
+      "main": [[{ "node": "🔀 Fusionner les flux", "type": "main", "index": 2 }]]
+    },
+    "🔀 Fusionner les flux": {
+      "main": [[{ "node": "🧠 Filtrer et générer les sujets", "type": "main", "index": 0 }]]
+    },
+    "🧠 Filtrer et générer les sujets": {
+      "main": [[{ "node": "❓ Des sujets trouvés ?", "type": "main", "index": 0 }]]
+    },
+    "❓ Des sujets trouvés ?": {
+      "main": [
+        [{ "node": "📤 Envoyer à ways-ci.com", "type": "main", "index": 0 }],
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

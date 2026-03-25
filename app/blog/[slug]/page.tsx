@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { getAllPosts, getPostBySlug } from "@/lib/blog";
 import { getApprovedComments } from "@/lib/comments";
 import CommentForm from "@/components/CommentForm";
@@ -107,6 +108,13 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {/* Cover Image */}
+      {post.cover_image && (
+        <div className="relative w-full h-64 md:h-96 bg-gray-100">
+          <Image src={post.cover_image} alt={post.title} fill className="object-cover" priority />
+        </div>
+      )}
 
       {/* Article Content */}
       <section className="bg-white py-16">

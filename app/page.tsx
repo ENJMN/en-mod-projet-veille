@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ServiceCard from "@/components/ServiceCard";
 import BlogCard from "@/components/BlogCard";
+import ProcessSection from "@/components/ProcessSection";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export const metadata: Metadata = {
@@ -70,36 +71,6 @@ const whyWays = [
   },
 ];
 
-const processSteps = [
-  {
-    number: "01",
-    title: "Audit & Diagnostic",
-    description:
-      "Analyse approfondie de vos processus actuels, identification des opportunités de digitalisation et évaluation de votre maturité numérique.",
-    color: "bg-[#E8861A]",
-  },
-  {
-    number: "02",
-    title: "Stratégie & Plan d'action",
-    description:
-      "Définition d'une feuille de route personnalisée avec les outils adaptés, les KPIs mesurables et un calendrier réaliste.",
-    color: "bg-[#0A2342]",
-  },
-  {
-    number: "03",
-    title: "Déploiement & Mise en œuvre",
-    description:
-      "Implémentation des solutions retenues, formation de vos équipes et accompagnement au changement pour une adoption réussie.",
-    color: "bg-[#E8861A]",
-  },
-  {
-    number: "04",
-    title: "Suivi & Optimisation",
-    description:
-      "Monitoring continu des performances, ajustements itératifs et support post-déploiement pour garantir un ROI maximal.",
-    color: "bg-[#0A2342]",
-  },
-];
 
 const testimonials = [
   {
@@ -206,7 +177,7 @@ export default async function HomePage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36">
           <div className="max-w-3xl">
             <span className="inline-block px-3 py-1 bg-[#E8861A]/20 text-[#E8861A] text-sm font-semibold rounded-full mb-6 border border-[#E8861A]/30">
-              Agence de transformation digitale — Abidjan, Côte d'Ivoire
+              Agence de transformation digitale &amp; organisationnelle — Abidjan, Côte d'Ivoire
             </span>
             <h1 className="text-4xl md:text-6xl font-black leading-tight mb-6 tracking-tight">
               We Act for{" "}
@@ -313,46 +284,7 @@ export default async function HomePage() {
       </section>
 
       {/* Process Section */}
-      <section className="bg-[#F8F9FA] py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <span className="inline-block px-3 py-1 bg-[#E8861A]/10 text-[#E8861A] text-sm font-semibold rounded-full mb-4 border border-[#E8861A]/20">
-              Notre méthode
-            </span>
-            <h2 className="text-3xl md:text-4xl font-black text-[#0A2342] mb-4">
-              Comment nous travaillons
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Un processus structuré en 4 étapes pour garantir le succès de votre
-              transformation digitale, du diagnostic à l'optimisation continue.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {processSteps.map((step) => (
-              <div key={step.number} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow text-center">
-                <div className={`w-16 h-16 rounded-2xl ${step.color} text-white font-black text-xl flex items-center justify-center mx-auto mb-5`}>
-                  {step.number}
-                </div>
-                <h3 className="text-lg font-bold text-[#0A2342] mb-3">{step.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{step.description}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-10">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#0A2342] text-white font-semibold rounded-xl hover:bg-[#E8861A] transition-colors text-sm"
-            >
-              Démarrer votre audit gratuit
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <ProcessSection />
 
       {/* Testimonials Section */}
       <section className="bg-[#0A2342] py-20">

@@ -164,7 +164,7 @@ export default function ContactPage() {
             </div>
 
             {/* Form */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2" id="contact-form">
               <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100">
                 {submitted ? (
                   <div className="text-center py-12">
