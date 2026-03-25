@@ -25,7 +25,7 @@ async function generateAndUploadCoverImage(title: string, category: string, slug
       quality: "standard",
     });
 
-    const imageUrl = response.data[0]?.url;
+    const imageUrl = response.data?.[0]?.url;
     if (!imageUrl) return null;
 
     // Télécharger l'image
