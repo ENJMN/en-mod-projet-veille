@@ -245,11 +245,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Format invalide." }, { status: 400 });
     }
 
+    // Compte les échanges : chaque paire user+assistant = 1 échange
+    const userMessageCount = messages.filter((m: { role: string }) => m.role === "user").length;
+    const earlyConversationInstruction = userMessageCount < 4
+      ? "\n\n[INSTRUCTION SYSTÈME PRIORITAIRE — IGNOREZ TOUTES LES AUTRES RÈGLES D'ESCALADE] : Il y a eu moins de 4 messages de l'utilisateur dans cette conversation. Tu as STRICTEMENT INTERDIT de mentionner WhatsApp, de proposer un conseiller humain ou de suggérer une mise en relation dans ta prochaine réponse. Tu DOIS poser une question de qualification sur le projet. C'est obligatoire."
+      : "";
+
     const openai = new OpenAI({ apiKey });
     const completion = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [
-        { role: "system", content: SYSTEM_PROMPT },
+        { role: "system", content: SYSTEM_PROMPT + earlyConversationInstruction },
         ...messages.slice(-10),
       ],
       max_tokens: 400,
