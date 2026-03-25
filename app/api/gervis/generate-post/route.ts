@@ -164,6 +164,8 @@ export async function POST(req: NextRequest) {
   // Supprimer tout ce qui précède le premier --- (au cas où il reste un préfixe parasite)
   const frontmatterStart = articleText.indexOf("---");
   if (frontmatterStart > 0) articleText = articleText.slice(frontmatterStart);
+  // Forcer draft: true — GPT peut générer draft: false, on impose toujours le brouillon
+  articleText = articleText.replace(/^draft:\s*(true|false)\s*$/m, "draft: true");
 
   // Générer le slug depuis le titre dans le frontmatter
   const titleMatch = articleText.match(/^title:\s*["']?(.+?)["']?\s*$/m);
