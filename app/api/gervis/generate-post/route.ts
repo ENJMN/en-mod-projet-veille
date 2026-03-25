@@ -152,7 +152,17 @@ export async function POST(req: NextRequest) {
   const message = await client.chat.completions.create({
     model: "gpt-4o",
     max_tokens: 16000,
-    messages: [{ role: "user", content: buildPrompt(topic, category, keywords) }],
+    messages: [
+      {
+        role: "system",
+        content:
+          "Tu es un rédacteur SEO expert. Tu DOIS générer un article de blog COMPLET en français d'un minimum de 1800 mots de contenu réel (hors frontmatter). " +
+          "Structure l'article avec une introduction, plusieurs sections H2/H3 développées, des exemples concrets, et une conclusion. " +
+          "Ne jamais résumer, ne jamais t'arrêter avant d'avoir atteint 1800 mots. " +
+          "Commence DIRECTEMENT par le bloc frontmatter MDX (---) sans aucun texte avant.",
+      },
+      { role: "user", content: buildPrompt(topic, category, keywords) },
+    ],
   });
 
   let articleText = message.choices[0]?.message?.content?.trim();
