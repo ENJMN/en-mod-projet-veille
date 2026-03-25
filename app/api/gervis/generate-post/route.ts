@@ -194,14 +194,21 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // Validation taille minimale — rejeter si contenu trop court
+  const wordCount = articleText.split(/\s+/).filter(Boolean).length;
+  if (wordCount < 400) {
+    return NextResponse.json(
+      { error: `Article trop court (${wordCount} mots). GPT n'a pas généré assez de contenu. Réessayez.` },
+      { status: 422 }
+    );
+  }
+
   fs.writeFileSync(finalPath, articleText, "utf-8");
 
   // Marquer le sujet comme généré
   if (topicId) {
     markTopicGenerated(topicId);
   }
-
-  const wordCount = articleText.split(/\s+/).length;
 
   return NextResponse.json({
     success: true,
