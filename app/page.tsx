@@ -177,7 +177,7 @@ export default async function HomePage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36">
           <div className="max-w-3xl">
             <span className="inline-block px-3 py-1 bg-[#E8861A]/20 text-[#E8861A] text-sm font-semibold rounded-full mb-6 border border-[#E8861A]/30">
-              Agence de transformation digitale et stratégique — Abidjan, Côte d'Ivoire
+              Agence de transformation digitale &amp; organisationnelle — Abidjan, Côte d'Ivoire
             </span>
             <h1 className="text-4xl md:text-6xl font-black leading-tight mb-6 tracking-tight">
               We Act for{" "}
