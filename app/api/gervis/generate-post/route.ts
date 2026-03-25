@@ -4,8 +4,24 @@ import { createClient } from "@supabase/supabase-js";
 import fs from "fs";
 import path from "path";
 
+import matter from "gray-matter";
 import { checkAdminKey } from "@/lib/admin-auth";
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY ?? "";
+
+const BLOG_DIR = path.join(process.cwd(), "content", "blog");
+
+function getPublishedArticles(): { title: string; slug: string }[] {
+  if (!fs.existsSync(BLOG_DIR)) return [];
+  return fs
+    .readdirSync(BLOG_DIR)
+    .filter((f) => f.endsWith(".mdx"))
+    .flatMap((filename) => {
+      const raw = fs.readFileSync(path.join(BLOG_DIR, filename), "utf-8");
+      const { data } = matter(raw);
+      if (data.draft) return [];
+      return [{ title: data.title ?? filename, slug: filename.replace(/\.mdx$/, "") }];
+    });
+}
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -149,6 +165,13 @@ export async function POST(req: NextRequest) {
   // Génération via OpenAI API
   const client = new OpenAI({ apiKey: OPENAI_API_KEY });
 
+  const publishedArticles = getPublishedArticles();
+  const internalLinksNote =
+    publishedArticles.length > 0
+      ? "\n\nArticles déjà publiés sur le site (tu PEUX créer des liens internes vers eux en markdown quand c'est pertinent) :\n" +
+        publishedArticles.map((a) => `- [${a.title}](/blog/${a.slug})`).join("\n")
+      : "";
+
   const message = await client.chat.completions.create({
     model: "gpt-4o",
     max_tokens: 16000,
@@ -159,7 +182,8 @@ export async function POST(req: NextRequest) {
           "Tu es un rédacteur SEO expert. Tu DOIS générer un article de blog COMPLET en français d'un minimum de 1800 mots de contenu réel (hors frontmatter). " +
           "Structure l'article avec une introduction, plusieurs sections H2/H3 développées, des exemples concrets, et une conclusion. " +
           "Ne jamais résumer, ne jamais t'arrêter avant d'avoir atteint 1800 mots. " +
-          "Commence DIRECTEMENT par le bloc frontmatter MDX (---) sans aucun texte avant.",
+          "Commence DIRECTEMENT par le bloc frontmatter MDX (---) sans aucun texte avant." +
+          internalLinksNote,
       },
       { role: "user", content: buildPrompt(topic, category, keywords) },
     ],
