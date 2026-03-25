@@ -10,6 +10,7 @@ export interface BlogPost {
   excerpt: string;
   category: string;
   draft: boolean;
+  cover_image: string | null;
   content: string;
 }
 
@@ -33,6 +34,7 @@ export function getAllPosts(): BlogPost[] {
       excerpt: data.excerpt ?? "",
       category: data.category ?? "",
       draft: data.draft === true,
+      cover_image: data.cover_image ?? null,
       content,
     } as BlogPost;
   });
@@ -58,6 +60,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
     excerpt: data.excerpt ?? "",
     category: data.category ?? "",
     draft: data.draft === true,
+    cover_image: data.cover_image ?? null,
     content,
   };
 }
@@ -78,6 +81,7 @@ export function getAllDrafts(): BlogPost[] {
         excerpt: data.excerpt ?? "",
         category: data.category ?? "",
         draft: data.draft === true,
+        cover_image: data.cover_image ?? null,
         content,
       } as BlogPost;
     })

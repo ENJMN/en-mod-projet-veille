@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 interface BlogCardProps {
   slug: string;
@@ -7,6 +8,7 @@ interface BlogCardProps {
   author: string;
   excerpt: string;
   category: string;
+  cover_image?: string | null;
 }
 
 const categoryStyles: Record<string, { bar: string; badge: string; text: string }> = {
@@ -18,7 +20,7 @@ const categoryStyles: Record<string, { bar: string; badge: string; text: string 
 
 const defaultStyle = { bar: "from-[#0A2342] to-[#E8861A]", badge: "bg-[#E8861A]/10 text-[#E8861A]", text: "" };
 
-export default function BlogCard({ slug, title, date, author, excerpt, category }: BlogCardProps) {
+export default function BlogCard({ slug, title, date, author, excerpt, category, cover_image }: BlogCardProps) {
   const style = categoryStyles[category] ?? defaultStyle;
 
   const formattedDate = new Date(date).toLocaleDateString("fr-FR", {
@@ -29,7 +31,13 @@ export default function BlogCard({ slug, title, date, author, excerpt, category 
 
   return (
     <article className="group bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-gray-200 transition-all duration-300 overflow-hidden flex flex-col">
-      <div className={`h-1.5 bg-gradient-to-r ${style.bar}`} />
+      {cover_image ? (
+        <div className="relative h-48 w-full overflow-hidden">
+          <Image src={cover_image} alt={title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
+        </div>
+      ) : (
+        <div className={`h-1.5 bg-gradient-to-r ${style.bar}`} />
+      )}
 
       <div className="p-6 flex flex-col flex-1">
         <div className="flex items-center gap-2 mb-3">

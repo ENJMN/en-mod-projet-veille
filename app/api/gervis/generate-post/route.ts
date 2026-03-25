@@ -1,10 +1,54 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
+import { createClient } from "@supabase/supabase-js";
 import fs from "fs";
 import path from "path";
 
 import { checkAdminKey } from "@/lib/admin-auth";
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY ?? "";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
+
+async function generateAndUploadCoverImage(title: string, category: string, slug: string): Promise<string | null> {
+  try {
+    const client = new OpenAI({ apiKey: OPENAI_API_KEY });
+    const imagePrompt = `Professional blog cover image for an article titled "${title}" about ${category} in West Africa. Modern, clean, business style. No text in the image.`;
+
+    const response = await client.images.generate({
+      model: "dall-e-3",
+      prompt: imagePrompt,
+      n: 1,
+      size: "1792x1024",
+      quality: "standard",
+    });
+
+    const imageUrl = response.data[0]?.url;
+    if (!imageUrl) return null;
+
+    // Télécharger l'image
+    const imgResponse = await fetch(imageUrl);
+    const arrayBuffer = await imgResponse.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    // Uploader dans Supabase Storage
+    const filename = `blog/${slug}-cover.jpg`;
+    const { error } = await supabase.storage.from("images").upload(filename, buffer, {
+      contentType: "image/jpeg",
+      upsert: true,
+    });
+
+    if (error) { console.error("[generate-post] Supabase upload error:", error); return null; }
+
+    const { data: urlData } = supabase.storage.from("images").getPublicUrl(filename);
+    return urlData.publicUrl;
+  } catch (e) {
+    console.error("[generate-post] Image generation error:", e);
+    return null;
+  }
+}
 
 interface Topic {
   id: string;
@@ -136,6 +180,18 @@ export async function POST(req: NextRequest) {
     finalPath = path.join(blogsDir, `${slug}-${Date.now()}.mdx`);
   }
 
+  // Générer l'image de couverture via DALL-E 3
+  const finalSlug = path.basename(finalPath, ".mdx");
+  const coverImage = await generateAndUploadCoverImage(titleRaw, category, finalSlug);
+
+  // Injecter cover_image dans le frontmatter si disponible
+  if (coverImage) {
+    articleText = articleText.replace(
+      /^(---\n[\s\S]*?)(draft:\s*(true|false))([\s\S]*?---)/m,
+      `$1$2\ncover_image: "${coverImage}"$4`
+    );
+  }
+
   fs.writeFileSync(finalPath, articleText, "utf-8");
 
   // Marquer le sujet comme généré
@@ -147,10 +203,11 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({
     success: true,
-    slug: path.basename(finalPath, ".mdx"),
+    slug: finalSlug,
     title: titleRaw,
     category,
     wordCount,
+    coverImage,
     draft: true,
     message: `Article généré avec succès (~${wordCount} mots). Relisez-le avant de publier.`,
   });

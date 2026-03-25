@@ -9,6 +9,7 @@ interface Article {
   category: string;
   excerpt: string;
   wordCount: number;
+  cover_image?: string | null;
 }
 
 const CATEGORIES = ["IA & Digital", "Stratégie", "BTP", "Formation"];
@@ -155,6 +156,10 @@ export default function AdminArticlesPage() {
 
   const ArticleCard = ({ article, isDraft }: { article: Article; isDraft: boolean }) => (
     <div className="bg-white rounded-2xl border border-gray-100 p-6 flex flex-col sm:flex-row sm:items-start gap-4">
+      {article.cover_image && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={article.cover_image} alt="" className="w-20 h-16 object-cover rounded-lg shrink-0 border border-gray-100" />
+      )}
       <div className="flex-1 min-w-0">
         <div className="flex flex-wrap items-center gap-2 mb-2">
           <span className={`px-2.5 py-0.5 text-xs font-semibold rounded-full ${categoryStyles[article.category] ?? "bg-gray-100 text-gray-600"}`}>
@@ -164,6 +169,7 @@ export default function AdminArticlesPage() {
           <span className="text-xs text-gray-400">~{article.wordCount} mots</span>
           {isDraft && <span className="text-xs px-2 py-0.5 bg-yellow-100 text-yellow-700 rounded-full font-medium">Brouillon</span>}
           {!isDraft && <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full font-medium">Publié</span>}
+          {!article.cover_image && <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-500 rounded-full">Sans image</span>}
         </div>
         <h2 className="font-black text-[#0A2342] text-base mb-1">{article.title}</h2>
         <p className="text-gray-500 text-sm leading-relaxed line-clamp-2">{article.excerpt}</p>

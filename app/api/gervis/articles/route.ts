@@ -37,6 +37,7 @@ export async function GET(req: NextRequest) {
       category: data.category ?? "",
       excerpt: data.excerpt ?? "",
       wordCount: countWords(content),
+      cover_image: data.cover_image ?? null,
     };
     if (data.draft) drafts.push(item);
     else published.push(item);
