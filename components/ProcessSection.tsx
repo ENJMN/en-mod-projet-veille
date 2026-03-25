@@ -201,15 +201,27 @@ export default function ProcessSection() {
         )}
 
         <div className="text-center mt-10">
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#0A2342] text-white font-semibold rounded-xl hover:bg-[#E8861A] transition-colors text-sm"
-          >
-            Démarrer votre audit gratuit
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </Link>
+          {tab === "digital" ? (
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#0A2342] text-white font-semibold rounded-xl hover:bg-[#E8861A] transition-colors text-sm"
+            >
+              Démarrer votre audit gratuit
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+          ) : (
+            <Link
+              href="/contact#contact-form"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#E8861A] text-white font-semibold rounded-xl hover:bg-[#0A2342] transition-colors text-sm"
+            >
+              Exprimer votre besoin
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+          )}
         </div>
 
       </div>
