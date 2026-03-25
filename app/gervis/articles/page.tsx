@@ -170,6 +170,10 @@ export default function AdminArticlesPage() {
         <p className="text-gray-400 text-xs mt-2 font-mono">content/blog/{article.slug}.mdx</p>
       </div>
       <div className="flex sm:flex-col gap-2 shrink-0">
+        <a href={`/gervis/articles/preview/${article.slug}`} target="_blank"
+          className="px-4 py-2 bg-[#0A2342]/10 text-[#0A2342] text-xs font-semibold rounded-lg hover:bg-[#0A2342]/20 transition-colors text-center">
+          Lire
+        </a>
         {isDraft ? (
           <button onClick={() => handlePatch(article.slug, "publish", article)} disabled={actionSlug === article.slug}
             className="px-4 py-2 bg-[#059669] text-white text-xs font-semibold rounded-lg hover:bg-[#047857] transition-colors disabled:opacity-60">
