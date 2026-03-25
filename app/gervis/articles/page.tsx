@@ -103,44 +103,55 @@ export default function AdminArticlesPage() {
 
   async function handlePatch(slug: string, action: "publish" | "unpublish", article?: Article) {
     setActionSlug(slug);
-    const res = await fetch("/api/gervis/articles", {
-      method: "PATCH",
-      headers: { "x-admin-key": adminKey, "Content-Type": "application/json" },
-      body: JSON.stringify({ slug, action }),
-    });
-    setActionSlug(null);
-    if (res.ok) {
-      if (action === "publish" && article) {
-        // Envoyer la newsletter aux abonnés
-        fetch("/api/newsletter/send", {
-          method: "POST",
-          headers: { "x-admin-key": adminKey, "Content-Type": "application/json" },
-          body: JSON.stringify({ slug, title: article.title, excerpt: article.excerpt, category: article.category }),
-        });
-        showMsg("success", "Article publié et newsletter envoyée aux abonnés !");
+    try {
+      const res = await fetch("/api/gervis/articles", {
+        method: "PATCH",
+        headers: { "x-admin-key": adminKey, "Content-Type": "application/json" },
+        body: JSON.stringify({ slug, action }),
+      });
+      if (res.ok) {
+        if (action === "publish" && article) {
+          fetch("/api/newsletter/send", {
+            method: "POST",
+            headers: { "x-admin-key": adminKey, "Content-Type": "application/json" },
+            body: JSON.stringify({ slug, title: article.title, excerpt: article.excerpt, category: article.category }),
+          });
+          showMsg("success", "Article publié et newsletter envoyée aux abonnés !");
+        } else {
+          showMsg("success", action === "unpublish" ? "Article repassé en brouillon." : "Article publié.");
+        }
+        loadAll();
       } else {
-        showMsg("success", "Article repassé en brouillon.");
+        const data = await res.json().catch(() => ({}));
+        showMsg("error", data.error ?? `Erreur ${res.status}.`);
       }
-      loadAll();
-    } else {
-      showMsg("error", "Erreur.");
+    } catch {
+      showMsg("error", "Erreur réseau.");
+    } finally {
+      setActionSlug(null);
     }
   }
 
   async function handleDelete(slug: string) {
     if (!confirm("Supprimer définitivement cet article ?")) return;
     setActionSlug(slug);
-    const res = await fetch("/api/gervis/articles", {
-      method: "DELETE",
-      headers: { "x-admin-key": adminKey, "Content-Type": "application/json" },
-      body: JSON.stringify({ slug }),
-    });
-    setActionSlug(null);
-    if (res.ok) {
-      showMsg("success", "Article supprimé.");
-      loadAll();
-    } else {
-      showMsg("error", "Erreur lors de la suppression.");
+    try {
+      const res = await fetch("/api/gervis/articles", {
+        method: "DELETE",
+        headers: { "x-admin-key": adminKey, "Content-Type": "application/json" },
+        body: JSON.stringify({ slug }),
+      });
+      if (res.ok) {
+        showMsg("success", "Article supprimé.");
+        loadAll();
+      } else {
+        const data = await res.json().catch(() => ({}));
+        showMsg("error", data.error ?? `Erreur ${res.status}.`);
+      }
+    } catch {
+      showMsg("error", "Erreur réseau.");
+    } finally {
+      setActionSlug(null);
     }
   }
 

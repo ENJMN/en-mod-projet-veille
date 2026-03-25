@@ -62,9 +62,10 @@ export async function PATCH(req: NextRequest) {
   }
 
   const raw = fs.readFileSync(filePath, "utf-8");
+  // Regex permissif : gère les variantes de GPT (quoted, casse, espaces)
   const updated = action === "publish"
-    ? raw.replace(/^draft:\s*true\s*$/m, "draft: false")
-    : raw.replace(/^draft:\s*false\s*$/m, "draft: true");
+    ? raw.replace(/^draft:.*$/im, "draft: false")
+    : raw.replace(/^draft:.*$/im, "draft: true");
   fs.writeFileSync(filePath, updated, "utf-8");
 
   return NextResponse.json({ success: true, slug });
