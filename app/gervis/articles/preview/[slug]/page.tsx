@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 
 function renderContent(content: string): string {
@@ -33,7 +34,6 @@ interface Post {
 
 export default function PreviewPage() {
   const { slug } = useParams<{ slug: string }>();
-  const router = useRouter();
 
   const [post, setPost] = useState<Post | null>(null);
   const [notFound, setNotFound] = useState(false);
@@ -113,12 +113,12 @@ export default function PreviewPage() {
       {/* Barre admin */}
       <div className="sticky top-0 z-10 bg-[#0A2342] text-white px-6 py-3 flex items-center justify-between shadow-md">
         <div className="flex items-center gap-3">
-          <button onClick={() => router.back()} className="flex items-center gap-2 text-gray-300 hover:text-white text-sm transition-colors">
+          <Link href="/gervis/articles" className="flex items-center gap-2 text-gray-300 hover:text-white text-sm transition-colors">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
-            Retour
-          </button>
+            Retour aux articles
+          </Link>
           <span className="text-gray-500">|</span>
           <span className="text-sm font-semibold truncate max-w-xs">{post.title}</span>
         </div>
