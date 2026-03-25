@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 
   const confirmUrl = `${BASE_URL}/api/newsletter/confirm?token=${token}`;
 
-  await resend.emails.send({
+  const { error: resendError } = await resend.emails.send({
     from: "WAYS Digital Solutions <no-reply@ways-ci.com>",
     to: email,
     subject: "Confirmez votre inscription à la newsletter WAYS",
@@ -42,6 +42,11 @@ export async function POST(req: NextRequest) {
       </div>
     `,
   });
+
+  if (resendError) {
+    console.error("[newsletter/subscribe] Resend error:", JSON.stringify(resendError));
+    return NextResponse.json({ error: "Erreur envoi email.", detail: resendError }, { status: 500 });
+  }
 
   return NextResponse.json({ success: true });
 }
